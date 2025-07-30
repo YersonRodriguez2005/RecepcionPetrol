@@ -4,10 +4,11 @@ import Header from './components/Header';
 import TablaConductores from './components/TablaConductores';
 import TablaDotacion from './components/TablaPrecioDotacion';
 import TablaExamenes from './components/TablaPrecioExamenes';
+import AuthWrapper from './components/AuthWrapper';
 
 const App = () => {
   return (
-    <>
+    <AuthWrapper>
       <Header />
       <Routes>
         <Route path="/" element={<Navigate to="/conductores" />} />
@@ -15,7 +16,7 @@ const App = () => {
         <Route path="/dotacion" element={<TablaDotacion />} />
         <Route path="/examenes" element={<TablaExamenes />} />
       </Routes>
-    </>
+    </AuthWrapper>
   );
 };
 
