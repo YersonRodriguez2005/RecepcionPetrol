@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import ChecklistRadicacion from './Check';
 
 const Header = () => {
   const location = useLocation();
@@ -11,21 +12,27 @@ const Header = () => {
 
   return (
     <header className="bg-gray-800 text-white p-4 shadow-md">
-      <nav className="flex gap-4 justify-center">
-        {links.map((link, index) => (
-          <Link
-            key={index}
-            to={link.path}
-            className={`px-4 py-2 rounded transition ${
-              location.pathname === link.path
-                ? 'bg-yellow-500 text-black font-semibold'
-                : 'hover:bg-gray-700'
-            }`}
-          >
-            {link.name}
-          </Link>
-        ))}
-      </nav>
+      <div className="flex justify-between items-center">
+        {/* Navegación principal */}
+        <nav className="flex gap-4">
+          {links.map((link, index) => (
+            <Link
+              key={index}
+              to={link.path}
+              className={`px-4 py-2 rounded transition ${
+                location.pathname === link.path
+                  ? 'bg-yellow-500 text-black font-semibold'
+                  : 'hover:bg-gray-700'
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Checklist de radicación */}
+        <ChecklistRadicacion />
+      </div>
     </header>
   );
 };
