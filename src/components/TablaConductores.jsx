@@ -162,7 +162,7 @@ const ConductoresComponent = () => {
         { cedula: "93131589", conductor: "VILLANUEVA GUZMAN SILVESTRE", operacion: "SURGAS" },
         { cedula: "12136696", conductor: "VILLARREAL GRAFFE JUAN CARLOS", operacion: "TRACTO EXPRESS" },
         { cedula: "93449956", conductor: "ZUÑIGA CABRERA ALEXANDER", operacion: "MALACATE" },
-        { cedula: "93449956", conductor: "LUIS TIRADO", operacion: "TRACTO" }
+        { cedula: "93449956", conductor: "LUIS TIRADO", operacion: "TRACTO" },
         { cedula: "93449956", conductor: "LIBARDO PERDOMO", operacion: "OPERATIVA VARIOS" }
 
     ];
