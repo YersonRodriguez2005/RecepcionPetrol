@@ -16,7 +16,9 @@ const ChecklistRadicacion = () => {
         "Leonidas Mora Tito - S.F.",
         "Escovial",
         "Marshall - Servicio de Escolta",
-        "Marshall - Servicio de Vigilancia"
+        "Marshall - Servicio de Vigilancia",
+        "Gutierrez Cardozo Luis Miguel - Contabilidad1",
+        "Gutierrez Cardozo Luis Miguel - Contabilidad2"
     ];
 
     const [isOpen, setIsOpen] = useState(false);
