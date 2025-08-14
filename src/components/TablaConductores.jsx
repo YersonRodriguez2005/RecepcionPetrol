@@ -161,7 +161,10 @@ const ConductoresComponent = () => {
         { cedula: "93021138", conductor: "VILLALBA CARRILLO CARLOS MARIO", operacion: "MALACATE" },
         { cedula: "93131589", conductor: "VILLANUEVA GUZMAN SILVESTRE", operacion: "SURGAS" },
         { cedula: "12136696", conductor: "VILLARREAL GRAFFE JUAN CARLOS", operacion: "TRACTO EXPRESS" },
-        { cedula: "93449956", conductor: "ZUÑIGA CABRERA ALEXANDER", operacion: "MALACATE" }
+        { cedula: "93449956", conductor: "ZUÑIGA CABRERA ALEXANDER", operacion: "MALACATE" },
+        { cedula: "93449956", conductor: "LUIS TIRADO", operacion: "TRACTO" }
+        { cedula: "93449956", conductor: "LIBARDO PERDOMO", operacion: "OPERATIVA VARIOS" }
+
     ];
 
     const [search, setSearch] = useState({
