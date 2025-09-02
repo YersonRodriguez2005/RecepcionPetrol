@@ -7,7 +7,8 @@ const Header = () => {
   const links = [
     { name: 'Conductores', path: '/conductores' },
     { name: 'Precios Dotación', path: '/dotacion' },
-    { name: 'Precios Exámenes', path: '/examenes' }
+    { name: 'Precios Exámenes', path: '/examenes' },
+    { name: 'Comida Perros', path: '/comida-perros' } // Nueva opción de navegación
   ];
 
   return (
