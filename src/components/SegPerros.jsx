@@ -53,7 +53,10 @@ const TablaComidaPerros = () => {
   };
 
   const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-ES', {
+    // Crear fecha local para evitar problemas de zona horaria
+    const [year, month, day] = fecha.split('-');
+    const fechaLocal = new Date(year, month - 1, day);
+    return fechaLocal.toLocaleDateString('es-ES', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -71,7 +74,9 @@ const TablaComidaPerros = () => {
 
   const calcularDiasDesdeUltima = (fecha) => {
     const hoy = new Date();
-    const fechaRegistro = new Date(fecha);
+    // Crear fecha local para evitar problemas de zona horaria
+    const [year, month, day] = fecha.split('-');
+    const fechaRegistro = new Date(year, month - 1, day);
     const diferencia = Math.floor((hoy - fechaRegistro) / (1000 * 60 * 60 * 24));
     return diferencia;
   };
