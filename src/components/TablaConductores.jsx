@@ -169,8 +169,13 @@ const ConductoresComponent = () => {
         { cedula: "79490214", conductor: "TIRADO ARIZA LUIS ALBERTO", operacion: "TRACTO EXPRESS" },
         { cedula: "19378260", conductor: "SASTOQUE HIDALGO JULIO CESAR", operacion: "ECOPETROL" },
         { cedula: "7686201", conductor: "VALDERRAMA MURCIA JORGE LUIS", operacion: "ECOPETROL" },
-        { cedula: "7686201", conductor: "JUAN MANUEL SANTA MARIA", operacion: "TRACTO" },
-        { cedula: "7686201", conductor: "JAVIER RODRIGUEZ", operacion: "ECOPETROL" },
+        { cedula: "72342095", conductor: "JUAN MANUEL SANTAMARIA GARCIA", operacion: "ECOPETROL" },
+        { cedula: "79557770", conductor: "JAVIER ARLEXIS RODRIGUEZ GONZALEZ", operacion: "ECOPETROL" },
+        { cedula: "1105783394 ", conductor: "JEIMAR FRANCISCO VEGA", operacion: "ECOPETROL" },
+        { cedula: "1121886609", conductor: "CAMILO ANDRES CONTRERAS PEREZ", operacion: "ECOPETROL" },
+        { cedula: "1075252673", conductor: "GERMAN ANDRES GUERRERO ZAMBRANO", operacion: "TRACTO EXPRESS" },
+        { cedula: "86067592", conductor: "JAIME ALBERTO JIMENEZ CASAS", operacion: "ECOPETROL" },
+        { cedula: "96353025", conductor: "DARIO QUINTERO OROZCO", operacion: "TRACTO EXPRESS" },
     ];
 
     const [search, setSearch] = useState({
