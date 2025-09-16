@@ -90,200 +90,215 @@ const TablaComidaPerros = () => {
   const ultimaCompra = registros.length > 0 ? registros[0] : null;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      {/* Header con estadísticas */}
-      <div className="mb-6">
-        <div className="flex items-center gap-3 mb-4">
-          <Dog className="w-8 h-8 text-blue-600" />
-          <h1 className="text-3xl font-bold text-gray-800">Control de Comida para Perros</h1>
-        </div>
-        
-        {ultimaCompra && (
-          <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-            <h2 className="text-lg font-semibold mb-2">Estado Actual</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <p className="text-gray-600">Última compra</p>
-                <p className="font-bold text-lg">{formatearFecha(ultimaCompra.fecha)}</p>
+    <div style={{ backgroundColor: '#373739' }} className="min-h-screen">
+      <div className="p-6 max-w-6xl mx-auto">
+        {/* Header con estadísticas */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <Dog className="w-8 h-8" style={{ color: '#c9b977' }} />
+            <h1 className="text-3xl font-bold" style={{ color: '#c9b977' }}>Control de Comida para Perros</h1>
+          </div>
+
+          {ultimaCompra && (
+            <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow-md p-4 mb-4 border">
+              <h2 className="text-lg font-semibold mb-2" style={{ color: '#ecdda2' }}>Estado Actual</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="text-center">
+                  <p style={{ color: '#ecdda2', opacity: 0.8 }}>Última compra</p>
+                  <p className="font-bold text-lg" style={{ color: '#c9b977' }}>{formatearFecha(ultimaCompra.fecha)}</p>
+                </div>
+                <div className="text-center">
+                  <p style={{ color: '#ecdda2', opacity: 0.8 }}>Hace</p>
+                  <p className={`font-bold text-lg px-3 py-1 rounded-full ${obtenerColorEstado(calcularDiasDesdeUltima(ultimaCompra.fecha))}`}>
+                    {calcularDiasDesdeUltima(ultimaCompra.fecha)} días
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p style={{ color: '#ecdda2', opacity: 0.8 }}>Último valor</p>
+                  <p className="font-bold text-lg text-green-400">{formatearMoneda(ultimaCompra.valorFactura)}</p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-gray-600">Hace</p>
-                <p className={`font-bold text-lg px-3 py-1 rounded-full ${obtenerColorEstado(calcularDiasDesdeUltima(ultimaCompra.fecha))}`}>
-                  {calcularDiasDesdeUltima(ultimaCompra.fecha)} días
+            </div>
+          )}
+        </div>
+
+        {/* Botón para agregar nuevo registro */}
+        <div className="mb-6">
+          <button
+            onClick={() => setMostrarFormulario(!mostrarFormulario)}
+            style={{ backgroundColor: '#c9b977' }}
+            className="text-black px-4 py-2 rounded-lg flex items-center gap-2 transition-opacity hover:opacity-90 font-medium"
+          >
+            <PlusCircle className="w-5 h-5" />
+            Nueva Compra
+          </button>
+        </div>
+
+        {/* Formulario para nuevo registro */}
+        {mostrarFormulario && (
+          <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow-md p-6 mb-6 border">
+            <h2 className="text-xl font-semibold mb-4" style={{ color: '#c9b977' }}>Registrar Nueva Compra</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1" style={{ color: '#ecdda2' }}>
+                  Fecha de compra *
+                </label>
+                <input
+                  type="date"
+                  value={nuevoRegistro.fecha}
+                  onChange={(e) => setNuevoRegistro({ ...nuevoRegistro, fecha: e.target.value })}
+                  style={{
+                    backgroundColor: '#020202',
+                    borderColor: '#ecdda2',
+                    color: '#ecdda2'
+                  }}
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1" style={{ color: '#ecdda2' }}>
+                  Valor de la factura *
+                </label>
+                <div className="relative">
+                  <DollarSign className="absolute left-3 top-2.5 w-4 h-4" style={{ color: '#ecdda2', opacity: 0.6 }} />
+                  <input
+                    type="number"
+                    value={nuevoRegistro.valorFactura}
+                    onChange={(e) => setNuevoRegistro({ ...nuevoRegistro, valorFactura: e.target.value })}
+                    placeholder="50000"
+                    min="0"
+                    step="1000"
+                    style={{
+                      backgroundColor: '#020202',
+                      borderColor: '#ecdda2',
+                      color: '#ecdda2'
+                    }}
+                    className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60"
+                    required
+                  />
+                </div>
+                <p className="text-xs mt-1" style={{ color: '#ecdda2', opacity: 0.7 }}>Ingresa el valor en pesos colombianos</p>
+              </div>
+
+              <div className="md:col-span-2 flex gap-3">
+                <button
+                  onClick={agregarRegistro}
+                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition-colors font-medium"
+                >
+                  Guardar Registro
+                </button>
+                <button
+                  onClick={() => setMostrarFormulario(false)}
+                  style={{ backgroundColor: '#020202', borderColor: '#ecdda2', color: '#ecdda2' }}
+                  className="border px-6 py-2 rounded-md transition-opacity hover:opacity-80 font-medium"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tabla de registros */}
+        <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow-md overflow-hidden border">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead style={{ backgroundColor: '#020202' }}>
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{ color: '#c9b977' }}>
+                    Fecha de Compra
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{ color: '#c9b977' }}>
+                    Valor Factura
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{ color: '#c9b977' }}>
+                    Días Transcurridos
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style={{ color: '#c9b977' }}>
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y" style={{ borderColor: '#020202' }}>
+                {registros.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="px-6 py-4 text-center" style={{ color: '#ecdda2', opacity: 0.8 }}>
+                      No hay registros de compras. Agrega el primer registro.
+                    </td>
+                  </tr>
+                ) : (
+                  registros.map((registro) => (
+                    <tr key={registro.id} className="hover:opacity-80 transition-opacity">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-2" style={{ color: '#ecdda2', opacity: 0.6 }} />
+                          <span className="font-medium" style={{ color: '#ecdda2' }}>{formatearFecha(registro.fecha)}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <DollarSign className="w-4 h-4 text-green-500 mr-1" />
+                          <span className="font-bold text-green-400">
+                            {formatearMoneda(registro.valorFactura)}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${obtenerColorEstado(calcularDiasDesdeUltima(registro.fecha))}`}>
+                          {calcularDiasDesdeUltima(registro.fecha)} días
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          onClick={() => eliminarRegistro(registro.id)}
+                          className="text-red-400 hover:text-red-300 transition-colors p-1 rounded hover:bg-red-900 hover:bg-opacity-20"
+                          title="Eliminar registro"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Estadísticas adicionales */}
+        {registros.length > 0 && (
+          <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="mt-6 rounded-lg shadow-md p-4 border">
+            <h3 className="text-lg font-semibold mb-3" style={{ color: '#c9b977' }}>Estadísticas</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p style={{ color: '#ecdda2', opacity: 0.8 }}>Total compras</p>
+                <p className="text-2xl font-bold" style={{ color: '#c9b977' }}>{registros.length}</p>
+              </div>
+              <div>
+                <p style={{ color: '#ecdda2', opacity: 0.8 }}>Gasto total</p>
+                <p className="text-2xl font-bold text-green-400">
+                  {formatearMoneda(registros.reduce((total, registro) => total + registro.valorFactura, 0))}
                 </p>
               </div>
-              <div className="text-center">
-                <p className="text-gray-600">Último valor</p>
-                <p className="font-bold text-lg text-green-600">{formatearMoneda(ultimaCompra.valorFactura)}</p>
+              <div>
+                <p style={{ color: '#ecdda2', opacity: 0.8 }}>Promedio por compra</p>
+                <p className="text-2xl font-bold" style={{ color: '#ecdda2' }}>
+                  {formatearMoneda(registros.reduce((total, registro) => total + registro.valorFactura, 0) / registros.length)}
+                </p>
+              </div>
+              <div>
+                <p style={{ color: '#ecdda2', opacity: 0.8 }}>Días desde última</p>
+                <p className={`text-2xl font-bold ${calcularDiasDesdeUltima(ultimaCompra.fecha) > 14 ? 'text-red-400' : ''}`}
+                  style={{ color: calcularDiasDesdeUltima(ultimaCompra.fecha) > 14 ? undefined : '#c9b977' }}>
+                  {calcularDiasDesdeUltima(ultimaCompra.fecha)} días
+                </p>
               </div>
             </div>
           </div>
         )}
       </div>
-
-      {/* Botón para agregar nuevo registro */}
-      <div className="mb-6">
-        <button
-          onClick={() => setMostrarFormulario(!mostrarFormulario)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-        >
-          <PlusCircle className="w-5 h-5" />
-          Nueva Compra
-        </button>
-      </div>
-
-      {/* Formulario para nuevo registro */}
-      {mostrarFormulario && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Registrar Nueva Compra</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Fecha de compra *
-              </label>
-              <input
-                type="date"
-                value={nuevoRegistro.fecha}
-                onChange={(e) => setNuevoRegistro({...nuevoRegistro, fecha: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Valor de la factura *
-              </label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
-                <input
-                  type="number"
-                  value={nuevoRegistro.valorFactura}
-                  onChange={(e) => setNuevoRegistro({...nuevoRegistro, valorFactura: e.target.value})}
-                  placeholder="50000"
-                  min="0"
-                  step="1000"
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <p className="text-xs text-gray-500 mt-1">Ingresa el valor en pesos colombianos</p>
-            </div>
-            
-            <div className="md:col-span-2 flex gap-3">
-              <button
-                onClick={agregarRegistro}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition-colors"
-              >
-                Guardar Registro
-              </button>
-              <button
-                onClick={() => setMostrarFormulario(false)}
-                className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md transition-colors"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Tabla de registros */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fecha de Compra
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Valor Factura
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Días Transcurridos
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {registros.length === 0 ? (
-                <tr>
-                  <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
-                    No hay registros de compras. Agrega el primer registro.
-                  </td>
-                </tr>
-              ) : (
-                registros.map((registro) => (
-                  <tr key={registro.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Calendar className="w-4 h-4 text-gray-400 mr-2" />
-                        <span className="font-medium">{formatearFecha(registro.fecha)}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <DollarSign className="w-4 h-4 text-green-500 mr-1" />
-                        <span className="font-bold text-green-600">
-                          {formatearMoneda(registro.valorFactura)}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${obtenerColorEstado(calcularDiasDesdeUltima(registro.fecha))}`}>
-                        {calcularDiasDesdeUltima(registro.fecha)} días
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        onClick={() => eliminarRegistro(registro.id)}
-                        className="text-red-600 hover:text-red-800 transition-colors p-1 rounded hover:bg-red-50"
-                        title="Eliminar registro"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Estadísticas adicionales */}
-      {registros.length > 0 && (
-        <div className="mt-6 bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-semibold mb-3">Estadísticas</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-            <div>
-              <p className="text-gray-600">Total compras</p>
-              <p className="text-2xl font-bold text-blue-600">{registros.length}</p>
-            </div>
-            <div>
-              <p className="text-gray-600">Gasto total</p>
-              <p className="text-2xl font-bold text-green-600">
-                {formatearMoneda(registros.reduce((total, registro) => total + registro.valorFactura, 0))}
-              </p>
-            </div>
-            <div>
-              <p className="text-gray-600">Promedio por compra</p>
-              <p className="text-2xl font-bold text-orange-600">
-                {formatearMoneda(registros.reduce((total, registro) => total + registro.valorFactura, 0) / registros.length)}
-              </p>
-            </div>
-            <div>
-              <p className="text-gray-600">Días desde última</p>
-              <p className={`text-2xl font-bold ${calcularDiasDesdeUltima(ultimaCompra.fecha) > 14 ? 'text-red-600' : 'text-blue-600'}`}>
-                {calcularDiasDesdeUltima(ultimaCompra.fecha)} días
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
 const ConductoresComponent = () => {
-    // Sample data - replace with your actual data
-    const data = [
+    // Datos de ejemplo para demostrar el componente
+    const [data] = useState([
         { cedula: "17386533", conductor: "ACUÑA TRIANA GERMAN", operacion: "ECOPETROL" },
         { cedula: "86040629", conductor: "AGUDELO SASTOQUE NELSON ANTONIO", operacion: "ECOPETROL" },
         { cedula: "19236441", conductor: "AGUIRRE ALVAREZ LUIS EDUARDO", operacion: "CAMION VACIO" },
@@ -176,7 +176,7 @@ const ConductoresComponent = () => {
         { cedula: "1075252673", conductor: "GERMAN ANDRES GUERRERO ZAMBRANO", operacion: "TRACTO EXPRESS" },
         { cedula: "86067592", conductor: "JAIME ALBERTO JIMENEZ CASAS", operacion: "ECOPETROL" },
         { cedula: "96353025", conductor: "DARIO QUINTERO OROZCO", operacion: "TRACTO EXPRESS" },
-    ];
+    ]);
 
     const [search, setSearch] = useState({
         cedula: '',
@@ -192,6 +192,33 @@ const ConductoresComponent = () => {
         }));
     };
 
+    const filteredData = useMemo(() => {
+        return data.filter(item =>
+            item.cedula.toLowerCase().includes(search.cedula.toLowerCase()) &&
+            item.conductor.toLowerCase().includes(search.conductor.toLowerCase()) &&
+            item.operacion.toLowerCase().includes(search.operacion.toLowerCase())
+        );
+    }, [data, search]);
+
+    const stats = useMemo(() => {
+        const ecopetrol = data.filter(item => item.operacion === 'ECOPETROL').length;
+        const hocol = data.filter(item => item.operacion === 'MALACATE').length;
+        const tracto = data.filter(item => item.operacion === 'TRACTO EXPRESS').length;
+        const camionVacio = data.filter(item => item.operacion === 'CAMION VACIO').length;
+        const operativaVarios = data.filter(item => item.operacion === 'OPERATIVA VARIOS').length;
+        
+        return {
+            total: data.length,
+            ecopetrol,
+            hocol,
+            tracto,
+            camionVacio,
+            operativaVarios
+        };
+    }, [data]);
+
+    const hasActiveFilters = search.cedula || search.conductor || search.operacion;
+
     const clearFilters = () => {
         setSearch({
             cedula: '',
@@ -200,79 +227,59 @@ const ConductoresComponent = () => {
         });
     };
 
-    const filteredData = useMemo(() => {
-        return data.filter(item => {
-            return item.cedula.toLowerCase().includes(search.cedula.toLowerCase()) &&
-                item.conductor.toLowerCase().includes(search.conductor.toLowerCase()) &&
-                item.operacion.toLowerCase().includes(search.operacion.toLowerCase());
-        });
-    }, [search]);
-
-    // Calculate stats
-    const stats = useMemo(() => {
-        const total = data.length;
-        const ecopetrol = data.filter(item => item.operacion === 'ECOPETROL').length;
-        const tracto = data.filter(item => item.operacion === 'TRACTO EXPRESS').length;
-        const malacate = data.filter(item => item.operacion === 'MALACATE').length;
-
-        return { total, ecopetrol, tracto, malacate };
-    }, []);
-
     const getOperationBadgeColor = (operacion) => {
-        switch (operacion) {
-            case 'ECOPETROL':
-                return 'bg-yellow-500 text-gray-700';
-            case 'TRACTO EXPRESS':
-                return 'bg-green-500 text-black';
-            case 'MALACATE':
-                return 'bg-blue-500 text-white';
-            case 'SURGAS':
-                return 'bg-orange-500 text-white';
-            case 'CAMION VACIO':
-                return 'bg-green-800 text-white';
-            default:
-                return 'bg-gray-100 text-gray-800';
-        }
+        const colors = {
+            'ECOPETROL': 'bg-yellow-500 text-black',         
+            'MALACATE': 'bg-blue-500 text-white',              
+            'TRACTO EXPRESS': 'bg-green-400 text-black',     
+            'CAMION VACIO': 'bg-green-800 text-white',
+            'SURGAS': 'bg-orange-400 text-white',        
+            'OPERATIVA VARIOS': 'bg-white text-black' 
+        };
+        return colors[operacion] || 'bg-gray-500 text-white';
     };
 
-    const hasActiveFilters = search.cedula || search.conductor || search.operacion;
-
     return (
-        <div className="bg-gray-900 min-h-screen">
+        <div style={{ backgroundColor: '#373739' }} className="min-h-screen">
             <div className="p-8 max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <h2 className="text-3xl font-bold text-white mb-2">Conductores</h2>
+                    <h2 className="text-3xl font-bold mb-2" style={{ color: '#c9b977' }}>Conductores</h2>
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
-                        <div className="text-2xl font-bold text-white">{stats.total}</div>
-                        <div className="text-sm text-gray-300">Total Conductores</div>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-2xl font-bold" style={{ color: '#ecdda2' }}>{stats.total}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Total Conductores</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
-                        <div className="text-2xl font-bold text-yellow-400">{stats.ecopetrol}</div>
-                        <div className="text-sm text-gray-300">Ecopetrol</div>
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-2xl font-bold text-yellow-500">{stats.ecopetrol}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Ecopetrol</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-2xl font-bold text-blue-500">{stats.hocol}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Hocol</div>
+                    </div>
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
                         <div className="text-2xl font-bold text-green-400">{stats.tracto}</div>
-                        <div className="text-sm text-gray-300">Tracto Express</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Tracto Express</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
-                        <div className="text-2xl font-bold text-blue-400">{stats.malacate}</div>
-                        <div className="text-sm text-gray-300">Malacate</div>
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-2xl font-bold text-green-800">{stats.camionVacio}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Camión Vacío</div>
                     </div>
                 </div>
 
                 {/* Search Filters */}
-                <div className="bg-gray-800 rounded-lg shadow p-6 mb-6 border border-gray-700">
+                <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 mb-6 border">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-semibold text-white">Filtros de Búsqueda</h3>
+                        <h3 className="text-lg font-semibold" style={{ color: '#ecdda2' }}>Filtros de Búsqueda</h3>
                         {hasActiveFilters && (
                             <button
                                 onClick={clearFilters}
-                                className="text-sm text-red-400 hover:text-red-300 font-medium"
+                                className="text-sm hover:opacity-80 font-medium"
+                                style={{ color: '#c9b977' }}
                             >
                                 Limpiar filtros
                             </button>
@@ -284,7 +291,12 @@ const ConductoresComponent = () => {
                             type="text"
                             name="cedula"
                             placeholder="Filtrar por cédula"
-                            className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            style={{ 
+                                backgroundColor: '#020202', 
+                                borderColor: '#ecdda2',
+                                color: '#ecdda2'
+                            }}
+                            className="border rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60"
                             value={search.cedula}
                             onChange={handleChange}
                         />
@@ -292,7 +304,12 @@ const ConductoresComponent = () => {
                             type="text"
                             name="conductor"
                             placeholder="Filtrar por nombre"
-                            className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            style={{ 
+                                backgroundColor: '#020202', 
+                                borderColor: '#ecdda2',
+                                color: '#ecdda2'
+                            }}
+                            className="border rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60"
                             value={search.conductor}
                             onChange={handleChange}
                         />
@@ -300,7 +317,12 @@ const ConductoresComponent = () => {
                             type="text"
                             name="operacion"
                             placeholder="Filtrar por operación"
-                            className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            style={{ 
+                                backgroundColor: '#020202', 
+                                borderColor: '#ecdda2',
+                                color: '#ecdda2'
+                            }}
+                            className="border rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60"
                             value={search.operacion}
                             onChange={handleChange}
                         />
@@ -309,36 +331,36 @@ const ConductoresComponent = () => {
 
                 {/* Results Counter */}
                 <div className="mb-4">
-                    <p className="text-gray-300">
-                        Mostrando <span className="font-semibold text-blue-400">{filteredData.length}</span> de {data.length} resultados
+                    <p style={{ color: '#ecdda2' }}>
+                        Mostrando <span className="font-semibold" style={{ color: '#c9b977' }}>{filteredData.length}</span> de {data.length} resultados
                     </p>
                 </div>
 
                 {/* Table */}
-                <div className="bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-700">
+                <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow overflow-hidden border">
                     <div className="overflow-x-auto">
                         <table className="min-w-full">
-                            <thead className="bg-gray-700">
+                            <thead style={{ backgroundColor: '#020202' }}>
                                 <tr>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                                    <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: '#c9b977' }}>
                                         Cédula
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                                    <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: '#c9b977' }}>
                                         Conductor
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                                    <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: '#c9b977' }}>
                                         Operación
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-600">
+                            <tbody className="divide-y" style={{ borderColor: '#020202' }}>
                                 {filteredData.length > 0 ? (
                                     filteredData.map((item, index) => (
-                                        <tr key={index} className="hover:bg-gray-700">
-                                            <td className="px-8 py-4 text-base font-bold text-white">
+                                        <tr key={index} className="hover:opacity-80 transition-opacity">
+                                            <td className="px-8 py-4 text-base font-bold" style={{ color: '#ecdda2' }}>
                                                 {item.cedula}
                                             </td>
-                                            <td className="px-6 py-4 text-base font-bold text-gray-200">
+                                            <td className="px-6 py-4 text-base font-bold" style={{ color: '#ecdda2' }}>
                                                 {item.conductor}
                                             </td>
                                             <td className="px-6 py-4">
@@ -351,13 +373,14 @@ const ConductoresComponent = () => {
                                 ) : (
                                     <tr>
                                         <td colSpan="3" className="px-6 py-12 text-center">
-                                            <div className="text-gray-400">
-                                                <div className="text-lg font-medium mb-2 text-white">No se encontraron resultados</div>
-                                                <p className="text-sm">Intenta modificar los filtros de búsqueda</p>
+                                            <div>
+                                                <div className="text-lg font-medium mb-2" style={{ color: '#c9b977' }}>No se encontraron resultados</div>
+                                                <p className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Intenta modificar los filtros de búsqueda</p>
                                                 {hasActiveFilters && (
                                                     <button
                                                         onClick={clearFilters}
-                                                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
+                                                        style={{ backgroundColor: '#c9b977' }}
+                                                        className="mt-4 px-4 py-2 text-black rounded-lg hover:opacity-90 text-sm font-medium transition-opacity"
                                                     >
                                                         Limpiar filtros
                                                     </button>

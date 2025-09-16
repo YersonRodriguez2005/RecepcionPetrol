@@ -26,20 +26,45 @@ const ProtectedRoute = ({ children, correctPassword }) => {
   if (isAuthorized) return children;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="mb-4 text-xl font-bold">Ingrese la contraseña para acceder</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col items-center">
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Contraseña"
-          className="mb-2 border rounded p-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          Ingresar
-        </button>
-      </form>
+    <div 
+      className="flex flex-col items-center justify-center h-screen"
+      style={{ backgroundColor: '#373739' }}
+    >
+      <div 
+        className="p-8 rounded-xl border shadow-lg"
+        style={{ 
+          backgroundColor: '#191913', 
+          borderColor: '#020202' 
+        }}
+      >
+        <h2 
+          className="mb-6 text-xl font-bold text-center"
+          style={{ color: '#c9b977' }}
+        >
+          Ingrese la contraseña para acceder
+        </h2>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
+            className="border rounded-lg px-4 py-3 w-full min-w-64 focus:ring-2 focus:ring-opacity-50 focus:outline-none"
+            style={{ 
+              backgroundColor: '#020202',
+              borderColor: '#ecdda2',
+              color: '#ecdda2'
+            }}
+          />
+          <button 
+            type="submit" 
+            className="w-full px-6 py-3 rounded-lg font-bold text-black hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: '#c9b977' }}
+          >
+            Ingresar
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

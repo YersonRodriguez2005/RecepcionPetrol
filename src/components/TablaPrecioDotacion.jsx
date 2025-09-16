@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
-const DotacionComponent = () => {
-    // Datos de dotación con productos y precios
-    const data = [
+const SistemaDotacionComponent = () => {
+    // Datos de ejemplo para demostrar el componente
+    const [data] = useState([
         { unidad: 1, descripcion: "CAMISA JEANS HOMBRE/DAMA BORDADA TALLA XS/XXL", precio: 32500 },
         { unidad: 1, descripcion: "CAMISA JEANS HOMBRE/DAMA BORDADA TALLA 3XL", precio: 35000 },
         { unidad: 1, descripcion: "CAMISA JEANS HOMBRE/DAMA BORDADA TALLA 4XL/5XL", precio: 38000 },
@@ -37,11 +37,11 @@ const DotacionComponent = () => {
         { unidad: 1, descripcion: "CONJUNTO IMPERMEABLE 3XL/4XL", precio: 52000 },
         { unidad: 1, descripcion: "OVEROL BORDADO – AZUL 36/46", precio: 70000 },
         { unidad: 1, descripcion: "OVEROL BORDADO – AZUL 48/....", precio: 74000 }
-    ];
+    ]);
 
     const [search, setSearch] = useState({
-        descripcion: '',
         precioMin: '',
+        descripcion: '',
         precioMax: ''
     });
 
@@ -53,100 +53,90 @@ const DotacionComponent = () => {
         }));
     };
 
+    const filteredData = useMemo(() => {
+        return data.filter(item => {
+            const matchesDescription = item.descripcion.toLowerCase().includes(search.descripcion.toLowerCase());
+            const matchesMinPrice = !search.precioMin || item.precio >= parseFloat(search.precioMin);
+            const matchesMaxPrice = !search.precioMax || item.precio <= parseFloat(search.precioMax);
+            
+            return matchesDescription && matchesMinPrice && matchesMaxPrice;
+        });
+    }, [data, search]);
+
+    const stats = useMemo(() => {
+        if (data.length === 0) return { total: 0, valorTotal: 0, precioPromedio: 0, precioMaximo: 0, precioMinimo: 0 };
+        
+        const precios = data.map(item => item.precio);
+        const valorTotal = precios.reduce((sum, precio) => sum + precio, 0);
+        
+        return {
+            total: data.length,
+            valorTotal,
+            precioPromedio: valorTotal / data.length,
+            precioMaximo: Math.max(...precios),
+            precioMinimo: Math.min(...precios)
+        };
+    }, [data]);
+
+    const hasActiveFilters = search.precioMin || search.descripcion || search.precioMax;
+
     const clearFilters = () => {
         setSearch({
-            descripcion: '',
             precioMin: '',
+            descripcion: '',
             precioMax: ''
         });
     };
 
-    const filteredData = useMemo(() => {
-        return data.filter(item => {
-            const matchesPrecioMin = !search.precioMin || item.precio >= parseFloat(search.precioMin);
-            const matchesDescripcion = item.descripcion.toLowerCase().includes(search.descripcion.toLowerCase());
-            const matchesPrecioMax = !search.precioMax || item.precio <= parseFloat(search.precioMax);
-
-            return matchesDescripcion && matchesPrecioMin && matchesPrecioMax;
-        });
-    }, [search]);
-
-    // Calcular estadísticas
-    const stats = useMemo(() => {
-        const total = data.length;
-        const valorTotal = data.reduce((sum, item) => sum + item.precio, 0);
-        const precioPromedio = valorTotal / total;
-        const precioMaximo = Math.max(...data.map(item => item.precio));
-        const precioMinimo = Math.min(...data.map(item => item.precio));
-
-        return { total, valorTotal, precioPromedio, precioMaximo, precioMinimo };
-    }, []);
-
-    const formatCurrency = (value) => {
+    const formatCurrency = (amount) => {
         return new Intl.NumberFormat('es-CO', {
             style: 'currency',
             currency: 'COP',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(value);
+            minimumFractionDigits: 0
+        }).format(amount);
     };
-
-    const getPriceCategory = (precio) => {
-        if (precio <= 10000) return 'bg-green-100 text-green-800';
-        if (precio <= 30000) return 'bg-yellow-100 text-yellow-800';
-        if (precio <= 50000) return 'bg-orange-100 text-orange-800';
-        return 'bg-red-100 text-red-800';
-    };
-
-    const getPriceCategoryLabel = (precio) => {
-        if (precio <= 10000) return 'Económico';
-        if (precio <= 30000) return 'Moderado';
-        if (precio <= 50000) return 'Alto';
-        return 'Premium';
-    };
-
-    const hasActiveFilters = search.descripcion || search.precioMin || search.precioMax;
 
     return (
-        <div className="bg-gray-900 min-h-screen">
+        <div style={{ backgroundColor: '#373739' }} className="min-h-screen">
             <div className="p-8 max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <h2 className="text-3xl font-bold text-white mb-2">Sistema de Dotación</h2>
+                    <h2 className="text-3xl font-bold mb-2" style={{ color: '#c9b977' }}>Sistema de Dotación</h2>
                 </div>
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
-                        <div className="text-2xl font-bold text-blue-400">{stats.total}</div>
-                        <div className="text-sm text-gray-300">Total Productos</div>
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-2xl font-bold" style={{ color: '#c9b977' }}>{stats.total}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Total Productos</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
-                        <div className="text-lg font-bold text-green-400">{formatCurrency(stats.valorTotal)}</div>
-                        <div className="text-sm text-gray-300">Valor Total</div>
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-lg font-bold" style={{ color: '#c9b977' }}>{formatCurrency(stats.valorTotal)}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Valor Total</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
-                        <div className="text-lg font-bold text-purple-400">{formatCurrency(stats.precioPromedio)}</div>
-                        <div className="text-sm text-gray-300">Precio Promedio</div>
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
+                        <div className="text-lg font-bold" style={{ color: '#ecdda2' }}>{formatCurrency(stats.precioPromedio)}</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Precio Promedio</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
                         <div className="text-lg font-bold text-red-400">{formatCurrency(stats.precioMaximo)}</div>
-                        <div className="text-sm text-gray-300">Precio Máximo</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Precio Máximo</div>
                     </div>
-                    <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
+                    <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 border">
                         <div className="text-lg font-bold text-green-400">{formatCurrency(stats.precioMinimo)}</div>
-                        <div className="text-sm text-gray-300">Precio Mínimo</div>
+                        <div className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Precio Mínimo</div>
                     </div>
                 </div>
 
                 {/* Search Filters */}
-                <div className="bg-gray-800 rounded-lg shadow p-6 mb-6 border border-gray-700">
+                <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow p-6 mb-6 border">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-semibold text-white">Filtros de Búsqueda</h3>
+                        <h3 className="text-lg font-semibold" style={{ color: '#ecdda2' }}>Filtros de Búsqueda</h3>
                         {hasActiveFilters && (
                             <button
                                 onClick={clearFilters}
-                                className="text-sm text-red-400 hover:text-red-300 font-medium"
+                                className="text-sm hover:opacity-80 font-medium"
+                                style={{ color: '#c9b977' }}
                             >
                                 Limpiar filtros
                             </button>
@@ -158,7 +148,12 @@ const DotacionComponent = () => {
                             type="number"
                             name="precioMin"
                             placeholder="Precio mínimo"
-                            className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            style={{ 
+                                backgroundColor: '#020202', 
+                                borderColor: '#ecdda2',
+                                color: '#ecdda2'
+                            }}
+                            className="border rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60 focus:outline-none"
                             value={search.precioMin}
                             onChange={handleChange}
                         />
@@ -166,7 +161,12 @@ const DotacionComponent = () => {
                             type="text"
                             name="descripcion"
                             placeholder="Filtrar por descripción"
-                            className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            style={{ 
+                                backgroundColor: '#020202', 
+                                borderColor: '#ecdda2',
+                                color: '#ecdda2'
+                            }}
+                            className="border rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60 focus:outline-none"
                             value={search.descripcion}
                             onChange={handleChange}
                         />
@@ -174,7 +174,12 @@ const DotacionComponent = () => {
                             type="number"
                             name="precioMax"
                             placeholder="Precio máximo"
-                            className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            style={{ 
+                                backgroundColor: '#020202', 
+                                borderColor: '#ecdda2',
+                                color: '#ecdda2'
+                            }}
+                            className="border rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-opacity-50 placeholder-opacity-60 focus:outline-none"
                             value={search.precioMax}
                             onChange={handleChange}
                         />
@@ -183,11 +188,11 @@ const DotacionComponent = () => {
 
                 {/* Results Counter */}
                 <div className="mb-4">
-                    <p className="text-gray-300">
-                        Mostrando <span className="font-semibold text-blue-400">{filteredData.length}</span> de {data.length} productos
+                    <p style={{ color: '#ecdda2' }}>
+                        Mostrando <span className="font-semibold" style={{ color: '#c9b977' }}>{filteredData.length}</span> de {data.length} productos
                         {filteredData.length > 0 && (
                             <span className="ml-4 text-sm">
-                                Valor filtrado: <span className="font-semibold text-green-400">
+                                Valor filtrado: <span className="font-semibold" style={{ color: '#c9b977' }}>
                                     {formatCurrency(filteredData.reduce((sum, item) => sum + item.precio, 0))}
                                 </span>
                             </span>
@@ -196,47 +201,48 @@ const DotacionComponent = () => {
                 </div>
 
                 {/* Table */}
-                <div className="bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-700">
+                <div style={{ backgroundColor: '#191913', borderColor: '#020202' }} className="rounded-lg shadow overflow-hidden border">
                     <div className="overflow-x-auto">
                         <table className="min-w-full">
-                            <thead className="bg-gray-700">
+                            <thead style={{ backgroundColor: '#020202' }}>
                                 <tr>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                                    <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: '#c9b977' }}>
                                         Unidad
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                                    <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: '#c9b977' }}>
                                         Descripción
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                                    <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: '#c9b977' }}>
                                         Precio
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-600">
+                            <tbody className="divide-y" style={{ borderColor: '#020202' }}>
                                 {filteredData.length > 0 ? (
                                     filteredData.map((item, index) => (
-                                        <tr key={index} className="hover:bg-gray-700">
-                                            <td className="px-6 py-4 text-base font-bold text-white">
+                                        <tr key={index} className="hover:opacity-80 transition-opacity">
+                                            <td className="px-6 py-4 text-base font-bold" style={{ color: '#ecdda2' }}>
                                                 {item.unidad}
                                             </td>
-                                            <td className="px-6 py-4 text-base font-bold text-gray-200 max-w-md">
+                                            <td className="px-6 py-4 text-base font-bold max-w-md" style={{ color: '#ecdda2' }}>
                                                 {item.descripcion}
                                             </td>
-                                            <td className="px-6 py-4 text-base font-bold text-green-400">
+                                            <td className="px-6 py-4 text-base font-bold" style={{ color: '#c9b977' }}>
                                                 {formatCurrency(item.precio)}
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="4" className="px-6 py-12 text-center">
-                                            <div className="text-gray-400">
-                                                <div className="text-lg font-medium mb-2 text-white">No se encontraron productos</div>
-                                                <p className="text-sm">Intenta modificar los filtros de búsqueda</p>
+                                        <td colSpan="3" className="px-6 py-12 text-center">
+                                            <div>
+                                                <div className="text-lg font-medium mb-2" style={{ color: '#c9b977' }}>No se encontraron productos</div>
+                                                <p className="text-sm" style={{ color: '#ecdda2', opacity: 0.8 }}>Intenta modificar los filtros de búsqueda</p>
                                                 {hasActiveFilters && (
                                                     <button
                                                         onClick={clearFilters}
-                                                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
+                                                        style={{ backgroundColor: '#c9b977' }}
+                                                        className="mt-4 px-4 py-2 text-black rounded-lg hover:opacity-90 text-sm font-medium transition-opacity"
                                                     >
                                                         Limpiar filtros
                                                     </button>
@@ -254,4 +260,4 @@ const DotacionComponent = () => {
     );
 };
 
-export default DotacionComponent;
+export default SistemaDotacionComponent;

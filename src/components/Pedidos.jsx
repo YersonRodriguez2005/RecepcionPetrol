@@ -33,12 +33,30 @@ const guardarPedidos = (pedidos) => {
   }
 };
 
+// Función para formatear fecha
+const formatearFecha = (fecha) => {
+  if (!fecha) return '';
+  const fechaObj = new Date(fecha);
+  return fechaObj.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+};
+
+// Función para obtener fecha actual en formato YYYY-MM-DD
+const obtenerFechaHoy = () => {
+  const hoy = new Date();
+  return hoy.toISOString().split('T')[0];
+};
+
 // Componente de lista de pedidos
 const VistaLista = ({ pedidos, filtroFecha, setFiltroFecha, setVistaActual, setPedidoSeleccionado, eliminarPedido }) => {
   const pedidosFiltrados = pedidos.filter(pedido => {
     if (!filtroFecha) return true;
-    // Buscar tanto en la fecha formateada como en la fecha original
-    return pedido.fecha.includes(filtroFecha) || (pedido.fechaOriginal && pedido.fechaOriginal.includes(filtroFecha));
+    // Buscar tanto en la fecha del pedido como en la fecha de registro
+    return (pedido.fechaPedido && pedido.fechaPedido.includes(filtroFecha)) ||
+           (pedido.fechaRegistro && pedido.fechaRegistro.includes(filtroFecha));
   });
 
   return (
@@ -110,8 +128,13 @@ const VistaLista = ({ pedidos, filtroFecha, setFiltroFecha, setVistaActual, setP
                     Pedido #{pedido.id}
                   </h3>
                   <p className="mb-1" style={styles.textSecondary}>
-                    Fecha: {pedido.fecha}
+                    Fecha del pedido: {formatearFecha(pedido.fechaPedido)}
                   </p>
+                  {pedido.fechaRegistro && (
+                    <p className="mb-1 text-sm opacity-75" style={styles.textSecondary}>
+                      Registrado: {pedido.fechaRegistro}
+                    </p>
+                  )}
                   <p className="mb-1" style={styles.textSecondary}>
                     Productos: {pedido.productos.length}
                   </p>
@@ -159,9 +182,11 @@ const VistaNuevoPedido = ({
   conceptoActual, 
   cantidadActual, 
   totalPedido,
+  fechaPedido,
   setConceptoActual,
   setCantidadActual,
   setTotalPedido,
+  setFechaPedido,
   agregarProducto,
   eliminarProducto,
   guardarPedido,
@@ -185,6 +210,21 @@ const VistaNuevoPedido = ({
           className="p-8 rounded-xl border"
           style={styles.card}
         >
+          {/* Campo de fecha del pedido */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2" style={styles.textSecondary}>
+              Fecha del pedido *
+            </label>
+            <input
+              type="date"
+              value={fechaPedido}
+              onChange={(e) => setFechaPedido(e.target.value)}
+              className="w-full px-3 py-3 rounded-lg border"
+              style={styles.input}
+              required
+            />
+          </div>
+
           <h3 className="text-lg font-semibold mb-5" style={styles.textSecondary}>
             Agregar Productos
           </h3>
@@ -278,14 +318,14 @@ const VistaNuevoPedido = ({
             
             <button
               onClick={guardarPedido}
-              disabled={productos.length === 0 || !totalPedido.trim()}
+              disabled={productos.length === 0 || !totalPedido.trim() || !fechaPedido}
               className={`flex-1 py-3 rounded-lg font-bold text-black transition-opacity ${
-                productos.length === 0 || !totalPedido.trim() 
+                productos.length === 0 || !totalPedido.trim() || !fechaPedido
                   ? 'cursor-not-allowed opacity-50' 
                   : 'cursor-pointer hover:opacity-90'
               }`}
               style={{ 
-                backgroundColor: productos.length === 0 || !totalPedido.trim() ? '#555' : '#c9b977' 
+                backgroundColor: productos.length === 0 || !totalPedido.trim() || !fechaPedido ? '#555' : '#c9b977' 
               }}
             >
               Guardar Pedido
@@ -329,8 +369,13 @@ const VistaDetalle = ({ pedidoSeleccionado, setVistaActual }) => {
         >
           <div className="mb-6">
             <p className="mb-3" style={styles.textSecondary}>
-              <span className="font-semibold">Fecha:</span> {pedidoSeleccionado.fecha}
+              <span className="font-semibold">Fecha del pedido:</span> {formatearFecha(pedidoSeleccionado.fechaPedido)}
             </p>
+            {pedidoSeleccionado.fechaRegistro && (
+              <p className="mb-3 text-sm opacity-75" style={styles.textSecondary}>
+                <span className="font-semibold">Fecha de registro:</span> {pedidoSeleccionado.fechaRegistro}
+              </p>
+            )}
             <p className="mb-6" style={styles.textSecondary}>
               <span className="font-semibold">Total:</span> ${pedidoSeleccionado.total.toLocaleString()}
             </p>
@@ -382,6 +427,7 @@ const PapeleriaSystem = () => {
   const [conceptoActual, setConceptoActual] = useState('');
   const [cantidadActual, setCantidadActual] = useState('');
   const [totalPedido, setTotalPedido] = useState('');
+  const [fechaPedido, setFechaPedido] = useState(obtenerFechaHoy());
 
   // ✅ Guardar automáticamente cada vez que se actualicen los pedidos
   useEffect(() => {
@@ -421,9 +467,9 @@ const PapeleriaSystem = () => {
 
   // Guardar pedido
   const guardarPedido = useCallback(() => {
-    if (productos.length > 0 && totalPedido.trim() && parseFloat(totalPedido) > 0) {
+    if (productos.length > 0 && totalPedido.trim() && parseFloat(totalPedido) > 0 && fechaPedido) {
       const ahora = new Date();
-      const fechaFormateada = ahora.toLocaleString('es-ES', {
+      const fechaRegistroFormateada = ahora.toLocaleString('es-ES', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
@@ -434,8 +480,8 @@ const PapeleriaSystem = () => {
 
       const nuevoPedido = {
         id: generarId(),
-        fecha: fechaFormateada,
-        fechaOriginal: ahora.toISOString(), // Para búsquedas más precisas
+        fechaPedido: fechaPedido, // Fecha que el usuario seleccionó
+        fechaRegistro: fechaRegistroFormateada, // Fecha cuando se guardó en el sistema
         productos: [...productos],
         total: parseFloat(totalPedido)
       };
@@ -452,6 +498,7 @@ const PapeleriaSystem = () => {
       setConceptoActual('');
       setCantidadActual('');
       setTotalPedido('');
+      setFechaPedido(obtenerFechaHoy()); // Resetear a fecha actual
       setVistaActual('lista');
       
       // Mostrar confirmación
@@ -459,7 +506,7 @@ const PapeleriaSystem = () => {
         alert('¡Pedido guardado exitosamente!');
       }, 100);
     }
-  }, [productos, totalPedido, generarId]);
+  }, [productos, totalPedido, fechaPedido, generarId]);
 
   // Eliminar pedido
   const eliminarPedido = useCallback((id) => {
@@ -488,9 +535,11 @@ const PapeleriaSystem = () => {
           conceptoActual={conceptoActual}
           cantidadActual={cantidadActual}
           totalPedido={totalPedido}
+          fechaPedido={fechaPedido}
           setConceptoActual={setConceptoActual}
           setCantidadActual={setCantidadActual}
           setTotalPedido={setTotalPedido}
+          setFechaPedido={setFechaPedido}
           agregarProducto={agregarProducto}
           eliminarProducto={eliminarProducto}
           guardarPedido={guardarPedido}
