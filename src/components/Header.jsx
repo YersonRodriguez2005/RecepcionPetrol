@@ -9,7 +9,8 @@ const Header = () => {
     { name: 'Precios Dotación', path: '/dotacion' },
     { name: 'Precios Exámenes', path: '/examenes' },
     { name: 'Comida Perros', path: '/comida-perros' },
-    { name: 'Pedidos', path: '/pedidos' }
+    { name: 'Pedidos', path: '/pedidos' },
+    { name: 'Relacion', path: '/relacion' }
   ];
 
   return (
