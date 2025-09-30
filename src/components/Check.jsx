@@ -22,8 +22,7 @@ const ChecklistRadicacionComponent = () => {
                 "Juan Nicolas Muñoz Diaz - Asesor Fiscal",
                 "Nicolas Andres Calderon Rodriguez - Asesoría",
                 "Garay Serrato Bryan - Revisor Fiscal",
-                "Gutierrez Cardozo Luis Miguel - Contabilidad 1",
-                "Gutierrez Cardozo Luis Miguel - Contabilidad 2"
+                "Gutierrez Cardozo Luis Miguel - Contabilidad",
             ]
         },
         servicios: {
