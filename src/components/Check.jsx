@@ -67,25 +67,14 @@ const ChecklistRadicacionComponent = () => {
         }
     };
 
-    // Cargar estado desde localStorage
+    // Expandir todas las categorías por defecto al iniciar
     useEffect(() => {
-        const saved = localStorage.getItem('checklist-radicacion');
-        if (saved) {
-            setCheckedItems(JSON.parse(saved));
-        }
-
-        // Expandir todas las categorías por defecto
         const initialExpanded = {};
         Object.keys(categorias).forEach(key => {
             initialExpanded[key] = true;
         });
         setExpandedCategories(initialExpanded);
     }, []);
-
-    // Guardar en localStorage cuando cambien los items
-    useEffect(() => {
-        localStorage.setItem('checklist-radicacion', JSON.stringify(checkedItems));
-    }, [checkedItems]);
 
     const handleCheckChange = (item) => {
         setCheckedItems(prev => ({
@@ -332,7 +321,7 @@ const ChecklistRadicacionComponent = () => {
                             </div>
 
                             <div className="text-xs" style={{ color: '#ecdda2', opacity: 0.7 }}>
-                                💾 Guardado automático
+                                ⚠️ Datos en memoria
                             </div>
                         </div>
                     </div>
