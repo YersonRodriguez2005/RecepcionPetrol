@@ -144,7 +144,7 @@ const ConductoresComponent = () => {
         { cedula: "18184916", conductor: "SANCHEZ MOSQUERA LEY  DEL FARO", operacion: "ECOPETROL" },
         { cedula: "1071165154", conductor: "SASTOQUE GUTIERREZ ALDEMAR", operacion: "ECOPETROL" },
         { cedula: "79892431", conductor: "SUAREZ DUQUE JOHN JAIRO", operacion: "MALACATE" },
-        { cedula: "74795215", conductor: "SUAREZ GUERRERO HUGO ALBERTO", operacion: "MALACATE" },
+        { cedula: "74795215", conductor: "SUAREZ GUERRERO HUGO ALBERTO", operacion: "ECOPETROL" },
         { cedula: "1106786698", conductor: "TORRES CORRECHA JHON EINER", operacion: "MALACATE" },
         { cedula: "79743847", conductor: "VAQUIRO SANCHEZ JOSE GERARDO", operacion: "MALACATE" },
         { cedula: "7702444", conductor: "VARGAS ARDILA FRANKLIN", operacion: "TRACTO EXPRESS" },
