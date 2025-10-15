@@ -7,7 +7,6 @@ import TablaExamenes from './components/TablaPrecioExamenes';
 import TablaComidaPerros from './components/SegPerros';
 import Pedidos from './components/Pedidos';
 import AuthWrapper from './components/AuthWrapper';
-import Relation from './components/Relation';
 import Ordenes from './components/Ordenes';
 
 // Componente wrapper reutilizable para rutas protegidas
@@ -116,14 +115,6 @@ const App = () => {
           element={
             <ProtectedRoute correctPassword={pedidosPassword}>
               <Pedidos />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/relacion"
-          element={
-            <ProtectedRoute correctPassword={pedidosPassword}>
-              <Relation />
             </ProtectedRoute>
           }
         />
