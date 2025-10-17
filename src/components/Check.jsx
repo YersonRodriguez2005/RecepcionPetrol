@@ -41,26 +41,26 @@ const ChecklistRadicacionComponent = () => {
 
     // Valores fijos por defecto para cada item
     const valoresFijos = {
-        "Juan Nicolas Muñoz Diaz - Asesor Fiscal": 500000,
-        "Nicolas Andres Calderon Rodriguez - Asesoría": 450000,
-        "Garay Serrato Bryan - Revisor Fiscal": 600000,
-        "Gutierrez Cardozo Luis Miguel - Contabilidad": 550000,
-        "Francy Camacho - Papelería": 150000,
-        "Escovial": 200000,
-        "Marshall - Servicio de Escolta": 800000,
-        "Marshall - Servicio de Vigilancia": 750000,
-        "Jhonatan Mora - S.S.": 300000,
-        "Jhonatan Mora - S.M.": 320000,
-        "Jennifer Mora - S.S.": 280000,
-        "Jhohn Edinson Mora - S.S.": 290000,
-        "Leonidas Mora Tito - S.S.": 310000,
-        "Leonidas Mora Tito - S.F.": 330000,
-        "Gas J1": 80000,
-        "Línea J1": 50000,
-        "Línea Jennifer": 50000,
-        "Arriendo Chaparral": 400000,
-        "Arriendo Villavó": 420000,
-        "Arriendo Girón": 380000
+        "Juan Nicolas Muñoz Diaz - Asesor Fiscal": 2135250,
+        "Nicolas Andres Calderon Rodriguez - Asesoría": 2135250,
+        "Garay Serrato Bryan - Revisor Fiscal": 4000000,
+        "Gutierrez Cardozo Luis Miguel - Contabilidad": 1800000,
+        "Francy Camacho - Papelería": 1000000,
+        "Escovial": 1000000,
+        "Marshall - Servicio de Escolta": 1600000,
+        "Marshall - Servicio de Vigilancia": 10110911,
+        "Jhonatan Mora - S.S.": 12000000,
+        "Jhonatan Mora - S.M.": 15212980,
+        "Jennifer Mora - S.S.": 13098000,
+        "Jhohn Edinson Mora - S.S.": 20000000,
+        "Leonidas Mora Tito - S.S.": 10141990,
+        "Leonidas Mora Tito - S.F.": 12000000,
+        "Gas J1": 90000,
+        "Línea J1": 195000,
+        "Línea Jennifer": 100000,
+        "Arriendo Chaparral": 550000,
+        "Arriendo Villavó": 700000,
+        "Arriendo Girón": 935000
     };
 
     const categorias = {
