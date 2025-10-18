@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check, X, RotateCcw, Users, FileText, Fuel, Building, DollarSign, Calendar, History, Trash2, Download, Filter, Edit2 } from 'lucide-react';
+import { Check, X, RotateCcw, Users, FileText, Fuel, Building, DollarSign, History, Trash2, Download, Filter, Edit2 } from 'lucide-react';
 
 const ChecklistRadicacionComponent = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,6 @@ const ChecklistRadicacionComponent = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [editingEntry, setEditingEntry] = useState(null);
     const [paymentData, setPaymentData] = useState({
-        fecha: new Date().toISOString().split('T')[0],
         valorPagado: ''
     });
     const [monthlyHistory, setMonthlyHistory] = useState([]);
@@ -124,6 +123,12 @@ const ChecklistRadicacionComponent = () => {
         });
         setExpandedCategories(initialExpanded);
 
+        // Cargar checklist guardado
+        const savedChecklist = localStorage.getItem('radicacion-checklist');
+        if (savedChecklist) {
+            setCheckedItems(JSON.parse(savedChecklist));
+        }
+
         // Cargar historial
         const savedHistory = localStorage.getItem('radicacion-history');
         if (savedHistory) {
@@ -136,16 +141,17 @@ const ChecklistRadicacionComponent = () => {
             // Abrir modal para registrar pago
             setSelectedItem(item);
             setPaymentData({
-                fecha: new Date().toISOString().split('T')[0],
                 valorPagado: valoresFijos[item]?.toString() || ''
             });
             setShowPaymentModal(true);
         } else {
             // Desmarcar
-            setCheckedItems(prev => ({
-                ...prev,
+            const newCheckedItems = {
+                ...checkedItems,
                 [item]: false
-            }));
+            };
+            setCheckedItems(newCheckedItems);
+            localStorage.setItem('radicacion-checklist', JSON.stringify(newCheckedItems));
         }
     };
 
@@ -155,22 +161,22 @@ const ChecklistRadicacionComponent = () => {
             return;
         }
 
-        // Marcar como completado
-        setCheckedItems(prev => ({
-            ...prev,
+        // Marcar como completado y guardar
+        const newCheckedItems = {
+            ...checkedItems,
             [selectedItem]: true
-        }));
+        };
+        setCheckedItems(newCheckedItems);
+        localStorage.setItem('radicacion-checklist', JSON.stringify(newCheckedItems));
 
         // Crear registro en historial
         const newEntry = {
             id: Date.now(),
             mes: getCurrentMonthKey(),
             mesNombre: getCurrentMonth(),
-            fecha: paymentData.fecha,
             concepto: selectedItem,
             valorFijo: valoresFijos[selectedItem] || 0,
-            valorPagado: parseFloat(paymentData.valorPagado),
-            timestamp: new Date().toISOString()
+            valorPagado: parseFloat(paymentData.valorPagado)
         };
 
         const updatedHistory = [...monthlyHistory, newEntry];
@@ -180,13 +186,12 @@ const ChecklistRadicacionComponent = () => {
         // Cerrar modal
         setShowPaymentModal(false);
         setSelectedItem(null);
-        setPaymentData({ fecha: new Date().toISOString().split('T')[0], valorPagado: '' });
+        setPaymentData({ valorPagado: '' });
     };
 
     const handleEditEntry = (entry) => {
         setEditingEntry(entry);
         setPaymentData({
-            fecha: entry.fecha,
             valorPagado: entry.valorPagado.toString()
         });
         setShowEditModal(true);
@@ -202,7 +207,6 @@ const ChecklistRadicacionComponent = () => {
             if (entry.id === editingEntry.id) {
                 return {
                     ...entry,
-                    fecha: paymentData.fecha,
                     valorPagado: parseFloat(paymentData.valorPagado)
                 };
             }
@@ -214,7 +218,7 @@ const ChecklistRadicacionComponent = () => {
 
         setShowEditModal(false);
         setEditingEntry(null);
-        setPaymentData({ fecha: new Date().toISOString().split('T')[0], valorPagado: '' });
+        setPaymentData({ valorPagado: '' });
     };
 
     const deleteHistoryEntry = (id) => {
@@ -226,14 +230,12 @@ const ChecklistRadicacionComponent = () => {
     };
 
     const exportToCSV = () => {
-        const headers = ['Fecha', 'Mes', 'Concepto', 'Valor Fijo', 'Valor Pagado', 'Diferencia'];
+        const headers = ['Mes', 'Concepto', 'Valor Fijo', 'Valor Pagado'];
         const rows = filteredHistory.map(entry => [
-            entry.fecha,
             entry.mesNombre,
             entry.concepto,
             entry.valorFijo,
-            entry.valorPagado,
-            entry.valorPagado - entry.valorFijo
+            entry.valorPagado
         ]);
 
         let csvContent = headers.join(',') + '\n';
@@ -258,6 +260,7 @@ const ChecklistRadicacionComponent = () => {
     const resetChecklist = () => {
         if (window.confirm('¿Estás seguro de que quieres reiniciar todo el checklist?')) {
             setCheckedItems({});
+            localStorage.removeItem('radicacion-checklist');
         }
     };
 
@@ -300,8 +303,7 @@ const ChecklistRadicacionComponent = () => {
     const stats = {
         total: filteredHistory.length,
         totalFijo: filteredHistory.reduce((sum, entry) => sum + entry.valorFijo, 0),
-        totalPagado: filteredHistory.reduce((sum, entry) => sum + entry.valorPagado, 0),
-        diferencia: filteredHistory.reduce((sum, entry) => sum + (entry.valorPagado - entry.valorFijo), 0)
+        totalPagado: filteredHistory.reduce((sum, entry) => sum + entry.valorPagado, 0)
     };
 
     return (
@@ -505,7 +507,7 @@ const ChecklistRadicacionComponent = () => {
                             </div>
 
                             <div className="text-xs" style={{ color: '#ecdda2', opacity: 0.7 }}>
-                                💾 Datos guardados
+                                💾 Guardado automático
                             </div>
                         </div>
                     </div>
@@ -533,18 +535,6 @@ const ChecklistRadicacionComponent = () => {
                                     value={selectedItem}
                                     disabled
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 font-medium"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Fecha de Pago
-                                </label>
-                                <input
-                                    type="date"
-                                    value={paymentData.fecha}
-                                    onChange={(e) => setPaymentData({ ...paymentData, fecha: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
 
@@ -613,18 +603,6 @@ const ChecklistRadicacionComponent = () => {
                                     value={editingEntry.concepto}
                                     disabled
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 font-medium"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Fecha de Pago
-                                </label>
-                                <input
-                                    type="date"
-                                    value={paymentData.fecha}
-                                    onChange={(e) => setPaymentData({ ...paymentData, fecha: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
 
@@ -743,87 +721,78 @@ const ChecklistRadicacionComponent = () => {
                                     <p className="text-sm opacity-70 mt-2">Los pagos registrados aparecerán aquí</p>
                                 </div>
                             ) : (
-                                <div className="space-y-3">
-                                    {filteredHistory
-                                        .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-                                        .map((entry) => (
-                                            <div
-                                                key={entry.id}
-                                                className="p-4 rounded-lg border-2 transition-all hover:shadow-lg"
-                                                style={{ backgroundColor: '#020202', borderColor: '#ecdda2', borderOpacity: 0.3 }}
-                                            >
-                                                <div className="flex justify-between items-start gap-4">
-                                                    <div className="flex-1">
-                                                        <div className="flex items-center gap-2 mb-2 flex-wrap">
-                                                            <Calendar size={16} style={{ color: '#c9b977' }} />
-                                                            <span className="text-sm font-medium" style={{ color: '#c9b977' }}>
-                                                                {new Date(entry.fecha).toLocaleDateString('es-CO', {
-                                                                    day: '2-digit',
-                                                                    month: 'long',
-                                                                    year: 'numeric'
-                                                                })}
-                                                            </span>
-                                                            <span className="px-2 py-1 rounded text-xs font-bold" style={{ backgroundColor: '#c9b977', color: '#020202' }}>
-                                                                {entry.mesNombre}
-                                                            </span>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full" style={{ borderCollapse: 'separate', borderSpacing: '0 8px' }}>
+                                        <thead>
+                                            <tr style={{ backgroundColor: '#020202' }}>
+                                                <th className="px-4 py-3 text-left text-sm font-bold rounded-l-lg" style={{ color: '#c9b977' }}>
+                                                    Mes
+                                                </th>
+                                                <th className="px-4 py-3 text-left text-sm font-bold" style={{ color: '#c9b977' }}>
+                                                    Concepto
+                                                </th>
+                                                <th className="px-4 py-3 text-right text-sm font-bold" style={{ color: '#c9b977' }}>
+                                                    Valor Fijo
+                                                </th>
+                                                <th className="px-4 py-3 text-right text-sm font-bold" style={{ color: '#c9b977' }}>
+                                                    Valor Pagado
+                                                </th>
+                                                <th className="px-4 py-3 text-center text-sm font-bold rounded-r-lg" style={{ color: '#c9b977' }}>
+                                                    Acciones
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredHistory.map((entry) => (
+                                                <tr
+                                                    key={entry.id}
+                                                    className="transition-all hover:shadow-lg"
+                                                    style={{ backgroundColor: '#020202' }}
+                                                >
+                                                    <td className="px-4 py-3 rounded-l-lg">
+                                                        <span className="px-2 py-1 rounded text-xs font-bold inline-block" style={{ backgroundColor: '#c9b977', color: '#020202' }}>
+                                                            {entry.mesNombre}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-4 py-3 font-medium" style={{ color: '#ecdda2' }}>
+                                                        {entry.concepto}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-right font-bold" style={{ color: '#ecdda2' }}>
+                                                        ${entry.valorFijo.toLocaleString('es-CO')}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-right font-bold text-green-400">
+                                                        ${entry.valorPagado.toLocaleString('es-CO')}
+                                                    </td>
+                                                    <td className="px-4 py-3 text-center rounded-r-lg">
+                                                        <div className="flex justify-center gap-2">
+                                                            <button
+                                                                onClick={() => handleEditEntry(entry)}
+                                                                className="p-2 rounded-lg transition-all hover:bg-blue-600"
+                                                                style={{ color: '#ecdda2' }}
+                                                                title="Editar"
+                                                            >
+                                                                <Edit2 size={16} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => deleteHistoryEntry(entry.id)}
+                                                                className="p-2 rounded-lg transition-all hover:bg-red-600"
+                                                                style={{ color: '#ecdda2' }}
+                                                                title="Eliminar"
+                                                            >
+                                                                <Trash2 size={16} />
+                                                            </button>
                                                         </div>
-
-                                                        <h4 className="font-bold text-base mb-3" style={{ color: '#ecdda2' }}>
-                                                            {entry.concepto}
-                                                        </h4>
-
-                                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                                            <div className="p-2 rounded" style={{ backgroundColor: '#191913' }}>
-                                                                <div className="text-xs" style={{ color: '#ecdda2', opacity: 0.7 }}>Valor Fijo</div>
-                                                                <div className="font-bold text-lg" style={{ color: '#ecdda2' }}>
-                                                                    ${entry.valorFijo.toLocaleString('es-CO')}
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="p-2 rounded" style={{ backgroundColor: '#191913' }}>
-                                                                <div className="text-xs" style={{ color: '#ecdda2', opacity: 0.7 }}>Valor Pagado</div>
-                                                                <div className={`font-bold text-lg ${entry.valorPagado === entry.valorFijo ? 'text-green-400' : 'text-yellow-400'}`}>
-                                                                    ${entry.valorPagado.toLocaleString('es-CO')}
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="p-2 rounded" style={{ backgroundColor: '#191913' }}>
-                                                                <div className="text-xs" style={{ color: '#ecdda2', opacity: 0.7 }}>Diferencia</div>
-                                                                <div className={`font-bold text-lg ${entry.valorPagado === entry.valorFijo ? 'text-green-400' : entry.valorPagado > entry.valorFijo ? 'text-orange-400' : 'text-red-400'}`}>
-                                                                    {entry.valorPagado === entry.valorFijo ? '✓ Exacto' :
-                                                                        `${entry.valorPagado > entry.valorFijo ? '+' : '-'}${Math.abs(entry.valorPagado - entry.valorFijo).toLocaleString('es-CO')}`}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex flex-col gap-2">
-                                                        <button
-                                                            onClick={() => handleEditEntry(entry)}
-                                                            className="p-2 rounded-lg transition-all hover:bg-blue-600 hover:scale-110"
-                                                            style={{ color: '#ecdda2' }}
-                                                            title="Editar registro"
-                                                        >
-                                                            <Edit2 size={18} />
-                                                        </button>
-                                                        <button
-                                                            onClick={() => deleteHistoryEntry(entry.id)}
-                                                            className="p-2 rounded-lg transition-all hover:bg-red-600 hover:scale-110"
-                                                            style={{ color: '#ecdda2' }}
-                                                            title="Eliminar registro"
-                                                        >
-                                                            <Trash2 size={18} />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
                             )}
                         </div>
 
                         <div className="p-6 border-t" style={{ backgroundColor: '#020202', borderColor: '#373739' }}>
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div className="text-center p-4 rounded-lg" style={{ backgroundColor: '#191913' }}>
                                     <div className="text-xs mb-1" style={{ color: '#ecdda2', opacity: 0.7 }}>Total Registros</div>
                                     <div className="text-2xl font-bold" style={{ color: '#c9b977' }}>
@@ -842,33 +811,6 @@ const ChecklistRadicacionComponent = () => {
                                     <div className="text-xs mb-1" style={{ color: '#ecdda2', opacity: 0.7 }}>Total Pagado</div>
                                     <div className="text-xl font-bold text-green-400">
                                         ${stats.totalPagado.toLocaleString('es-CO')}
-                                    </div>
-                                </div>
-
-                                <div
-                                    className="text-center p-4 rounded-lg"
-                                    style={{ backgroundColor: '#191913' }}
-                                >
-                                    <div
-                                        className="text-xs mb-1"
-                                        style={{ color: '#ecdda2', opacity: 0.7 }}
-                                    >
-                                        Diferencia Total
-                                    </div>
-
-                                    <div
-                                        className={`text-xl font-bold ${stats.diferencia === 0
-                                                ? 'text-green-400'
-                                                : stats.diferencia > 0
-                                                    ? 'text-orange-400'
-                                                    : 'text-red-400'
-                                            }`}
-                                    >
-                                        {stats.diferencia === 0
-                                            ? '✓ $0'
-                                            : `${stats.diferencia > 0 ? '+' : '-'} $${Math.abs(
-                                                stats.diferencia
-                                            ).toLocaleString('es-CO')}`}
                                     </div>
                                 </div>
                             </div>
