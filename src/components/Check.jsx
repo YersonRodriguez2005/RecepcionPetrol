@@ -556,7 +556,8 @@ const ChecklistRadicacionComponent = () => {
                                     value={paymentData.valorPagado}
                                     onChange={(e) => setPaymentData({ ...paymentData, valorPagado: e.target.value })}
                                     placeholder="Ingresa el monto pagado"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 font-semibold text-lg"
+                                    style={{ backgroundColor: '#ffffff' }}
                                 />
                             </div>
                         </div>
