@@ -71,10 +71,10 @@ const ProtectedRoute = ({ children, correctPassword }) => {
 };
 
 const App = () => {
-  const dotacionPassword = 'petrol1234*';
-  const examenesPassword = 'petrol1234*';
-  const comidaPerrosPassword = 'petrol1234*';
-  const pedidosPassword = 'petrol1234*';
+  const dotacionPassword = 'Petrol1234*';
+  const examenesPassword = 'Petrol1234*';
+  const comidaPerrosPassword = 'Petrol1234*';
+  const pedidosPassword = 'Petrol1234*';
   const ordenesPassword = '1234*';
 
   return (
