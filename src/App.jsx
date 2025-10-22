@@ -71,10 +71,11 @@ const ProtectedRoute = ({ children, correctPassword }) => {
 };
 
 const App = () => {
-  const dotacionPassword = '1234*';
-  const examenesPassword = '1234*';
-  const comidaPerrosPassword = '1234*';
-  const pedidosPassword = '1234*';
+  const dotacionPassword = 'petrol1234*';
+  const examenesPassword = 'petrol1234*';
+  const comidaPerrosPassword = 'petrol1234*';
+  const pedidosPassword = 'petrol1234*';
+  const ordenesPassword = '1234*';
 
   return (
     <AuthWrapper>
@@ -121,7 +122,7 @@ const App = () => {
         <Route
           path="/ordenes"
           element={
-            <ProtectedRoute correctPassword={pedidosPassword}>
+            <ProtectedRoute correctPassword={ordenesPassword}>
               <Ordenes />
             </ProtectedRoute>
           }
