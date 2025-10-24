@@ -173,7 +173,7 @@ const ConductoresComponent = () => {
         { cedula: "79557770", conductor: "JAVIER ARLEXIS RODRIGUEZ GONZALEZ", operacion: "ECOPETROL" },
         { cedula: "1105783394 ", conductor: "JEIMAR FRANCISCO VEGA", operacion: "ECOPETROL" },
         { cedula: "1121886609", conductor: "CAMILO ANDRES CONTRERAS PEREZ", operacion: "TRACTO EXPRESS" },
-        { cedula: "1075252673", conductor: "GERMAN ANDRES GUERRERO ZAMBRANO", operacion: "TRACTO EXPRESS" },
+        { cedula: "1075252673", conductor: "GERMAN ANDRES GUERRERO ZAMBRANO", operacion: "ECOPETROL" },
         { cedula: "86067592", conductor: "JAIME ALBERTO JIMENEZ CASAS", operacion: "ECOPETROL" },
         { cedula: "96353025", conductor: "DARIO QUINTERO OROZCO", operacion: "TRACTO EXPRESS" },
         { cedula: "17342848", conductor: "HERNANDO ROJAS GAMBOA", operacion: "ECOPETROL" },
