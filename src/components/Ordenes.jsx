@@ -86,7 +86,7 @@ export default function OrdenCompraApp() {
   };
 
   const validarNumeroOrden = (numero, idActual = null) => {
-    return ordenes.some(orden => 
+    return ordenes.some(orden =>
       orden.numeroOrden === numero && orden.id !== idActual
     );
   };
@@ -128,26 +128,26 @@ export default function OrdenCompraApp() {
       return;
     }
 
-    const nuevasOrdenes = ordenes.map(orden => 
-      orden.id === ordenEditando.id 
+    const nuevasOrdenes = ordenes.map(orden =>
+      orden.id === ordenEditando.id
         ? {
-            ...orden,
-            numeroOrden: formData.numeroOrden.trim(),
-            descripcion: formData.descripcion.trim(),
-            estado: formData.estado,
-            fechaModificacion: new Date().toISOString()
-          }
+          ...orden,
+          numeroOrden: formData.numeroOrden.trim(),
+          descripcion: formData.descripcion.trim(),
+          estado: formData.estado,
+          fechaModificacion: new Date().toISOString()
+        }
         : orden
     );
-    
+
     setOrdenes(nuevasOrdenes);
     await guardarOrdenesEnNube(nuevasOrdenes);
     resetFormulario();
   };
 
   const cambiarEstado = async (id, nuevoEstado) => {
-    const nuevasOrdenes = ordenes.map(orden => 
-      orden.id === id 
+    const nuevasOrdenes = ordenes.map(orden =>
+      orden.id === id
         ? { ...orden, estado: nuevoEstado, fechaModificacion: new Date().toISOString() }
         : orden
     );
@@ -216,9 +216,8 @@ export default function OrdenCompraApp() {
       <div className="max-w-7xl mx-auto">
         {/* Mensaje de estado */}
         {mensajeEstado && (
-          <div className={`mb-4 p-3 rounded-lg ${
-            mensajeEstado.tipo === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
-          }`}>
+          <div className={`mb-4 p-3 rounded-lg ${mensajeEstado.tipo === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+            }`}>
             {mensajeEstado.texto}
           </div>
         )}
@@ -233,8 +232,8 @@ export default function OrdenCompraApp() {
                 <p className="text-sm text-yellow-700 mt-1">
                   Debes configurar tu API_KEY y BIN_ID de JSONBin.io en el código.
                   <br />
-                  <a href="https://jsonbin.io" target="_blank" rel="noopener noreferrer" 
-                     className="underline font-medium">
+                  <a href="https://jsonbin.io" target="_blank" rel="noopener noreferrer"
+                    className="underline font-medium">
                     Crear cuenta en JSONBin.io
                   </a>
                 </p>
@@ -284,7 +283,7 @@ export default function OrdenCompraApp() {
               <h2 className="text-lg font-semibold mb-4">
                 {ordenEditando ? 'Editar Orden' : 'Nueva Orden de Compra'}
               </h2>
-              
+
               {error && (
                 <div className="bg-red-50 text-red-700 p-3 rounded mb-4">
                   {error}
@@ -299,7 +298,7 @@ export default function OrdenCompraApp() {
                   <input
                     type="text"
                     value={formData.numeroOrden}
-                    onChange={(e) => setFormData({...formData, numeroOrden: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, numeroOrden: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Ej: OC-2025-001"
                   />
@@ -311,7 +310,7 @@ export default function OrdenCompraApp() {
                   </label>
                   <select
                     value={formData.estado}
-                    onChange={(e) => setFormData({...formData, estado: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, estado: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="Pendiente">Pendiente</option>
@@ -327,7 +326,7 @@ export default function OrdenCompraApp() {
                 </label>
                 <textarea
                   value={formData.descripcion}
-                  onChange={(e) => setFormData({...formData, descripcion: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   rows="3"
                   placeholder="Describe los detalles de la orden..."
