@@ -66,7 +66,7 @@ const ConductoresComponent = () => {
         { cedula: "7706887", conductor: "HERNANDEZ TOVAR CARMELO", operacion: "SURGAS" },
         { cedula: "10167014", conductor: "HURTADO NIÑO FABIO ENRIQUE", operacion: "TRACTO EXPRESS" },
         { cedula: "1075224792", conductor: "JAVELA LARA YILBER", operacion: "CAMION VACIO" },
-        { cedula: "7218228", conductor: "JIMENEZ OROZCO LUIS FERNANDO", operacion: "MALACATE" },
+        { cedula: "7218228", conductor: "JIMENEZ OROZCO LUIS FERNANDO", operacion: "ECOPETROL" },
         { cedula: "89000456", conductor: "LOAIZA ANDRADE EDGAR", operacion: "TRACTO EXPRESS" },
         { cedula: "80503738", conductor: "LOAIZA BOBADILLA WILLIAM FERNANDO", operacion: "MALACATE" },
         { cedula: "10110970", conductor: "LOAIZA TABARES SIGIFREDO", operacion: "ECOPETROL" },
