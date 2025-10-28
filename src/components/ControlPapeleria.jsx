@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Package, User, Building2, Calendar, FileText, Save, RefreshCw, AlertCircle } from 'lucide-react';
+import { Package, User, Building2, Calendar, FileText, Save, RefreshCw, AlertCircle, Trash2 } from 'lucide-react';
 
 const DeliveryManager = () => {
     const [deliveries, setDeliveries] = useState([]);
@@ -130,9 +130,7 @@ const DeliveryManager = () => {
             setFormData({
                 employeeName: '',
                 department: '',
-                deliveryDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-                    .toISOString()
-                    .split('T')[0],
+                deliveryDate: new Date().toISOString().split('T')[0],
                 itemDescription: ''
             });
 
@@ -140,6 +138,27 @@ const DeliveryManager = () => {
             // eslint-disable-next-line no-unused-vars
         } catch (err) {
             setError('Error al registrar la entrega. Por favor, intenta nuevamente.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async (deliveryId) => {
+        if (!window.confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            return;
+        }
+
+        setLoading(true);
+        setError('');
+
+        try {
+            const updatedDeliveries = deliveries.filter(d => d.id !== deliveryId);
+            await saveDeliveries(updatedDeliveries);
+            setDeliveries(updatedDeliveries);
+            setSuccess('Registro eliminado exitosamente');
+            setTimeout(() => setSuccess(''), 3000);
+        } catch (err) {
+            setError('Error al eliminar el registro. Por favor, intenta nuevamente.');
         } finally {
             setLoading(false);
         }
@@ -321,6 +340,9 @@ const DeliveryManager = () => {
                                                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                                     Elemento
                                                 </th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                                    Acciones
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
@@ -339,6 +361,17 @@ const DeliveryManager = () => {
                                                         <div className="max-w-xs truncate" title={delivery.itemDescription}>
                                                             {delivery.itemDescription}
                                                         </div>
+                                                    </td>
+                                                    <td className="px-4 py-3 text-center">
+                                                        <button
+                                                            onClick={() => handleDelete(delivery.id)}
+                                                            disabled={loading}
+                                                            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                                            title="Eliminar registro"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                            Eliminar
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
