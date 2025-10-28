@@ -8,6 +8,7 @@ import TablaComidaPerros from './components/SegPerros';
 import Pedidos from './components/Pedidos';
 import AuthWrapper from './components/AuthWrapper';
 import Ordenes from './components/Ordenes';
+import Control from './components/ControlPapeleria';
 
 // Componente wrapper reutilizable para rutas protegidas
 const ProtectedRoute = ({ children, correctPassword }) => {
@@ -124,6 +125,14 @@ const App = () => {
           element={
             <ProtectedRoute correctPassword={ordenesPassword}>
               <Ordenes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/control"
+          element={
+            <ProtectedRoute correctPassword={ordenesPassword}>
+              <Control />
             </ProtectedRoute>
           }
         />

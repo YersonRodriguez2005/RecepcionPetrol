@@ -11,7 +11,8 @@ const Header = () => {
     { name: 'Precios Exámenes', path: '/examenes' },
     { name: 'Comida Perros', path: '/comida-perros' },
     { name: 'Pedidos', path: '/pedidos' },
-    { name: 'Ordenes', path: '/ordenes' }
+    { name: 'Ordenes', path: '/ordenes' },
+    { name: 'Control', path: '/control' }
   ];
 
   const handleMouseEnter = (e, isActive) => {
