@@ -186,6 +186,7 @@ const ConductoresComponent = () => {
         { cedula: "83234433", conductor: "ROLANDO POLANIA ORTIZ", operacion: "SURGAS" },
         { cedula: "7727359", conductor: "MICHAEL VALENCIA VALENCIA", operacion: "SURGAS" },
         { cedula: "1111111", conductor: "RODRIGO CAMACHO", operacion: "TRACTO EXPRESS" },
+        { cedula: "79844101", conductor: "YONNY JERLEY SANCHEZ", operacion: "ECOPETROL" },
     ]);
 
     const [search, setSearch] = useState({
