@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import TablaConductores from './components/TablaConductores';
@@ -11,44 +11,19 @@ import Ordenes from './components/Ordenes';
 import Control from './components/ControlPapeleria';
 
 // Componente wrapper reutilizable para rutas protegidas
-const ProtectedRoute = ({ children, correctPassword, routeName }) => {
+const ProtectedRoute = ({ children, correctPassword }) => {
   const [password, setPassword] = useState('');
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Verificar si ya está autenticado al montar el componente
-  useEffect(() => {
-    const authKey = `auth_${routeName}`;
-    const isAuth = sessionStorage.getItem(authKey) === 'true';
-    setIsAuthorized(isAuth);
-    setIsLoading(false);
-  }, [routeName]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === correctPassword) {
-      const authKey = `auth_${routeName}`;
-      sessionStorage.setItem(authKey, 'true');
       setIsAuthorized(true);
     } else {
       alert('Contraseña incorrecta');
       setPassword('');
     }
   };
-
-  // Mostrar un loading mientras verifica la autenticación
-  if (isLoading) {
-    return (
-      <div 
-        className="flex items-center justify-center h-screen"
-        style={{ backgroundColor: '#373739' }}
-      >
-        <div className="text-xl" style={{ color: '#c9b977' }}>
-          Cargando...
-        </div>
-      </div>
-    );
-  }
 
   if (isAuthorized) return children;
 
@@ -82,7 +57,6 @@ const ProtectedRoute = ({ children, correctPassword, routeName }) => {
               borderColor: '#ecdda2',
               color: '#ecdda2'
             }}
-            autoFocus
           />
           <button 
             type="submit" 
@@ -114,7 +88,7 @@ const App = () => {
         <Route
           path="/dotacion"
           element={
-            <ProtectedRoute correctPassword={dotacionPassword} routeName="dotacion">
+            <ProtectedRoute correctPassword={dotacionPassword}>
               <TablaDotacion />
             </ProtectedRoute>
           }
@@ -123,7 +97,7 @@ const App = () => {
         <Route
           path="/examenes"
           element={
-            <ProtectedRoute correctPassword={examenesPassword} routeName="examenes">
+            <ProtectedRoute correctPassword={examenesPassword}>
               <TablaExamenes />
             </ProtectedRoute>
           }
@@ -132,7 +106,7 @@ const App = () => {
         <Route
           path="/comida-perros"
           element={
-            <ProtectedRoute correctPassword={comidaPerrosPassword} routeName="comida-perros">
+            <ProtectedRoute correctPassword={comidaPerrosPassword}>
               <TablaComidaPerros />
             </ProtectedRoute>
           }
@@ -141,25 +115,23 @@ const App = () => {
         <Route
           path="/pedidos"
           element={
-            <ProtectedRoute correctPassword={pedidosPassword} routeName="pedidos">
+            <ProtectedRoute correctPassword={pedidosPassword}>
               <Pedidos />
             </ProtectedRoute>
           }
         />
-        
         <Route
           path="/ordenes"
           element={
-            <ProtectedRoute correctPassword={ordenesPassword} routeName="ordenes">
+            <ProtectedRoute correctPassword={ordenesPassword}>
               <Ordenes />
             </ProtectedRoute>
           }
         />
-        
         <Route
           path="/control"
           element={
-            <ProtectedRoute correctPassword={ordenesPassword} routeName="control">
+            <ProtectedRoute correctPassword={ordenesPassword}>
               <Control />
             </ProtectedRoute>
           }
