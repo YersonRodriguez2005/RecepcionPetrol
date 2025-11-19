@@ -19,7 +19,7 @@ const ConductoresComponent = () => {
         { cedula: "98579966", conductor: "BONILLA  JAIR ALBERTO", operacion: "TRACTO EXPRESS" },
         { cedula: "12124213", conductor: "BONILLA CERQUERA MIGUEL ANTONIO", operacion: "TRACTO EXPRESS" },
         { cedula: "7686453", conductor: "BONILLA RUIZ GILBERTO", operacion: "CAMION VACIO" },
-        { cedula: "7332796", conductor: "BUENO  OMAR MARTIN", operacion: "ECOPETROL" },
+        { cedula: "7332796", conductor: "BUENO  OMAR MARTIN", operacion: "TRACTO EXPRESS" },
         { cedula: "86014459", conductor: "BUITRAGO RIOS DUFRENEHT", operacion: "ECOPETROL" },
         { cedula: "93021137", conductor: "CAICEDO CARRILLO YONATHAN ALFONSO", operacion: "MALACATE" },
         { cedula: "12132035", conductor: "CALDERON CUELLAR JORGE EDUARDO", operacion: "CAMION VACIO" },
