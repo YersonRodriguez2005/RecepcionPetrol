@@ -138,7 +138,7 @@ const ConductoresComponent = () => {
         { cedula: "17337821", conductor: "SANABRIA RIVERA OSCAR CESAR", operacion: "ECOPETROL" },
         { cedula: "14236689", conductor: "SANCHEZ  ALVARO", operacion: "TRACTO EXPRESS" },
         { cedula: "12136525", conductor: "SANCHEZ AMAYA CARLOS ALBERTO", operacion: "ECOPETROL" },
-        { cedula: "83222489", conductor: "SANCHEZ ARTEAGA EDUIN ANDRES", operacion: "ECOPETROL" },
+        { cedula: "83222489", conductor: "SANCHEZ ARTEAGA EDUIN ANDRES", operacion: "TRACTO EXPRESS" },
         { cedula: "93451707", conductor: "SANCHEZ GARCIA PABLO ALEXANDER", operacion: "MALACATE" },
         { cedula: "7701698", conductor: "SANCHEZ MONTANO ROBINSON", operacion: "TRACTO EXPRESS" },
         { cedula: "18184916", conductor: "SANCHEZ MOSQUERA LEY  DEL FARO", operacion: "ECOPETROL" },
