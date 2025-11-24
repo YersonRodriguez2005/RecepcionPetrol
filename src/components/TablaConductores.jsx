@@ -35,7 +35,7 @@ const ConductoresComponent = () => {
         { cedula: "1049608677", conductor: "CORTES PERALTA MANUEL ANTONIO", operacion: "ECOPETROL" },
         { cedula: "72280994", conductor: "CORTES VILLARREAL CARLOS ANDRES", operacion: "ECOPETROL" },
         { cedula: "4898724", conductor: "CRUZ GARCIA NOEL", operacion: "CAMION VACIO" },
-        { cedula: "7220038", conductor: "CUBIDES RIAÑO HECTOR JULIO", operacion: "TRACTO EXPRESS" },
+        { cedula: "7220038", conductor: "CUBIDES RIAÑO HECTOR JULIO", operacion: "ECOPETROL" },
         { cedula: "93181748", conductor: "CUELLAR MONTOYA MIGUEL ANGEL", operacion: "MALACATE" },
         { cedula: "12274561", conductor: "CUELLAR MUÑOZ EDGAR", operacion: "MALACATE" },
         { cedula: "6801800", conductor: "DIAZ CANO JHON JANIER", operacion: "ECOPETROL" },
