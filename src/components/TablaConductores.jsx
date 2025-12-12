@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 const ConductoresComponent = () => {
     // Datos de ejemplo para demostrar el componente
     const [data] = useState([
-        { cedula: "17386533", conductor: "ACUÑA TRIANA GERMAN", operacion: "SERVICIOS VARIOS" },
+        { cedula: "17386533", conductor: "ACUÑA TRIANA GERMAN", operacion: "TRACTO EXPRESS" },
         { cedula: "86040629", conductor: "AGUDELO SASTOQUE NELSON ANTONIO", operacion: "SERVICIOS VARIOS" },
         { cedula: "19236441", conductor: "AGUIRRE ALVAREZ LUIS EDUARDO", operacion: "CAMION VACIO" },
         { cedula: "91013553", conductor: "ALVAREZ PEÑA JAIRO", operacion: "TRACTO EXPRESS" },
@@ -171,7 +171,7 @@ const ConductoresComponent = () => {
         { cedula: "7686201", conductor: "VALDERRAMA MURCIA JORGE LUIS", operacion: "SERVICIOS VARIOS" },
         { cedula: "72342095", conductor: "JUAN MANUEL SANTAMARIA GARCIA", operacion: "SERVICIOS VARIOS" },
         { cedula: "79557770", conductor: "JAVIER ARLEXIS RODRIGUEZ GONZALEZ", operacion: "SERVICIOS VARIOS" },
-        { cedula: "1105783394 ", conductor: "JEIMAR FRANCISCO VEGA", operacion: "SERVICIOS VARIOS" },
+        { cedula: "1105783394 ", conductor: "JEIMAR FRANCISCO VEGA", operacion: "TRACTO EXPRESS" },
         { cedula: "1121886609", conductor: "CAMILO ANDRES CONTRERAS PEREZ", operacion: "TRACTO EXPRESS" },
         { cedula: "1075252673", conductor: "GERMAN ANDRES GUERRERO ZAMBRANO", operacion: "SERVICIOS VARIOS" },
         { cedula: "86067592", conductor: "JAIME ALBERTO JIMENEZ CASAS", operacion: "SERVICIOS VARIOS" },
