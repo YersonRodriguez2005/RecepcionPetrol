@@ -75,7 +75,7 @@ const ConductoresComponent = () => {
         { cedula: "93020214", conductor: "LOZANO TAPIERO EUTIQUIO", operacion: "MALACATE" },
         { cedula: "5825798", conductor: "MAHECHA VANEGAS JAIME ENRIQUE", operacion: "MALACATE" },
         { cedula: "1121835372", conductor: "MANGONEZ HERNANDEZ JHONATTAN", operacion: "SERVICIOS VARIOS" },
-        { cedula: "80064095", conductor: "MARTINEZ RIAÑO YURY ALEXANDER", operacion: "SERVICIOS VARIOS" },
+        { cedula: "80064095", conductor: "MARTINEZ RIAÑO YURY ALEXANDER", operacion: "TRACTO EXPRESS" },
         { cedula: "12197059", conductor: "MENDEZ PASTRANA JOSE ADAN", operacion: "SURGAS" },
         { cedula: "1106783101", conductor: "MENDOZA SANTOFIMIO JOHAN FERNANDO", operacion: "TRACTO EXPRESS" },
         { cedula: "7721217", conductor: "MONTANO CORREA JHON DEIMER", operacion: "TRACTO EXPRESS" },
