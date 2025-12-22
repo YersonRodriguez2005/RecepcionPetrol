@@ -49,11 +49,7 @@ const ChecklistRadicacionComponent = () => {
         "Marshall - Servicio de Escolta": 1600000,
         "Marshall - Servicio de Vigilancia": 10110911,
         "Jhonatan Mora - S.S.": 12000000,
-        "Jhonatan Mora - S.M.": 15212980,
         "Jennifer Mora - S.S.": 13098000,
-        "Jhohn Edinson Mora - S.S.": 20000000,
-        "Leonidas Mora Tito - S.S.": 10141990,
-        "Leonidas Mora Tito - S.F.": 12000000,
         "Gas J1": 90000,
         "Línea J1": 195000,
         "Línea Jennifer": 100000,
@@ -88,11 +84,7 @@ const ChecklistRadicacionComponent = () => {
             icono: <Users size={16} />,
             items: [
                 "Jhonatan Mora - S.S.",
-                "Jhonatan Mora - S.M.",
                 "Jennifer Mora - S.S.",
-                "Jhohn Edinson Mora - S.S.",
-                "Leonidas Mora Tito - S.S.",
-                "Leonidas Mora Tito - S.F."
             ]
         },
         serviciosPublicos: {
