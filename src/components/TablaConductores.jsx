@@ -141,7 +141,7 @@ const ConductoresComponent = () => {
         { cedula: "83222489", conductor: "SANCHEZ ARTEAGA EDUIN ANDRES", operacion: "TRACTO EXPRESS" },
         { cedula: "93451707", conductor: "SANCHEZ GARCIA PABLO ALEXANDER", operacion: "MALACATE" },
         { cedula: "7701698", conductor: "SANCHEZ MONTANO ROBINSON", operacion: "TRACTO EXPRESS" },
-        { cedula: "18184916", conductor: "SANCHEZ MOSQUERA LEY  DEL FARO", operacion: "SERVICIOS VARIOS" },
+        { cedula: "18184916", conductor: "SANCHEZ MOSQUERA LEY  DEL FARO", operacion: "TRACTO EXPRESS" },
         { cedula: "1071165154", conductor: "SASTOQUE GUTIERREZ ALDEMAR", operacion: "SERVICIOS VARIOS" },
         { cedula: "79892431", conductor: "SUAREZ DUQUE JOHN JAIRO", operacion: "MALACATE" },
         { cedula: "74795215", conductor: "SUAREZ GUERRERO HUGO ALBERTO", operacion: "SERVICIOS VARIOS" },
