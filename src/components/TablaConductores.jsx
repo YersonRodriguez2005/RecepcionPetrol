@@ -55,7 +55,7 @@ const ConductoresComponent = () => {
         { cedula: "7694820", conductor: "GOMEZ ORTIZ HERNANDO", operacion: "TRACTO EXPRESS" },
         { cedula: "18491953", conductor: "GOMEZ PERDOMO CARLOS HOOVER", operacion: "SERVICIOS VARIOS" },
         { cedula: "77006846", conductor: "GOMEZ REYES HERNAN", operacion: "TRACTO EXPRESS" },
-        { cedula: "8508590", conductor: "GOMEZ RUEDA CESAR AUGUSTO", operacion: "SERVICIOS VARIOS" },
+        { cedula: "8508590", conductor: "GOMEZ RUEDA CESAR AUGUSTO", operacion: "TRACTO EXPRESS" },
         { cedula: "12131205", conductor: "GONGORA PERDOMO SAUL", operacion: "CAMION VACIO" },
         { cedula: "93452330", conductor: "GUTIERREZ  ROSEDEL", operacion: "MALACATE" },
         { cedula: "14010934", conductor: "GUTIERREZ LOZANO EDINSON", operacion: "MALACATE" },
