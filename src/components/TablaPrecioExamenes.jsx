@@ -3,17 +3,17 @@ import React, { useState, useMemo } from 'react';
 const SistemaExamenesComponent = () => {
     // Datos de ejemplo para demostrar el componente
     const [data] = useState([
-        { unidad: 1, descripcion: "VALORACION MEDICA CARDIO Y OSTEO", precio: 28000 },
-        { unidad: 1, descripcion: "GLICEMIA", precio: 6000 },
-        { unidad: 1, descripcion: "PERFIL LIPIDICO", precio: 22000 },
-        { unidad: 1, descripcion: "EXAMEN OPTOMETRIA", precio: 20000 },
+        { unidad: 1, descripcion: "VALORACION MEDICA CARDIO Y OSTEO", precio: 29400 },
+        { unidad: 1, descripcion: "GLICEMIA", precio: 6300 },
+        { unidad: 1, descripcion: "PERFIL LIPIDICO", precio: 23100 },
+        { unidad: 1, descripcion: "EXAMEN OPTOMETRIA", precio: 21000 },
         { unidad: 1, descripcion: "AUDIOMETRIA", precio: 15000 },
         { unidad: 1, descripcion: "PRUEBA PSICOSENSOMETRICA", precio: 33000 },
-        { unidad: 1, descripcion: "PRUEBA PSICOTECNICA", precio: 22000 },
+        { unidad: 1, descripcion: "PRUEBA PSICOTECNICA", precio: 23100 },
         { unidad: 1, descripcion: "ELECTROCARDIOGRAMA", precio: 31000 },
         { unidad: 1, descripcion: "E.M.O. EN ALTURA", precio: 11000 },
-        { unidad: 1, descripcion: "TAMIZAJE PANEL 2", precio: 20000 },
-        { unidad: 1, descripcion: "ALCOHOL", precio: 16000 },
+        { unidad: 1, descripcion: "TAMIZAJE PANEL 2", precio: 21000 },
+        { unidad: 1, descripcion: "ALCOHOL", precio: 16800 },
         { unidad: 1, descripcion: "ESPIROMETRIA", precio: 22000 }
     ]);
 

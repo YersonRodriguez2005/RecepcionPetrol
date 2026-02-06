@@ -38,14 +38,14 @@ const ConductoresComponent = () => {
         { cedula: "7220038", conductor: "CUBIDES RIAÑO HECTOR JULIO", operacion: "SERVICIOS VARIOS" },
         { cedula: "93181748", conductor: "CUELLAR MONTOYA MIGUEL ANGEL", operacion: "MALACATE" },
         { cedula: "12274561", conductor: "CUELLAR MUÑOZ EDGAR", operacion: "MALACATE" },
-        { cedula: "6801800", conductor: "DIAZ CANO JHON JANIER", operacion: "SERVICIOS VARIOS" },
+        { cedula: "6801800", conductor: "DIAZ CANO JHON JANIER", operacion: "TRACTO EXPRESS" },
         { cedula: "7714767", conductor: "DIAZ HERNANDEZ EDWIN HALEY", operacion: "TRACTO EXPRESS" },
         { cedula: "91266180", conductor: "DUARTE BEIRO WILFRED", operacion: "TRACTO EXPRESS" },
         { cedula: "19225459", conductor: "DUARTE RAMIREZ JORGE MANUEL", operacion: "MALACATE" },
         { cedula: "12265522", conductor: "ESQUIVEL ZAMBRANO WILLIAM", operacion: "SERVICIOS VARIOS" },
         { cedula: "1193029207", conductor: "FLOREZ CONTRERAS HERSON AUGUSTO", operacion: "TRACTO EXPRESS" },
         { cedula: "93294262", conductor: "GALINDO BELTRAN MIGUEL ANTONIO", operacion: "MALACATE" },
-        { cedula: "1061626404", conductor: "GALLEGO ARCILA CRISTIAN ALBERTO", operacion: "SERVICIOS VARIOS" },
+        { cedula: "1061626404", conductor: "GALLEGO ARCILA CRISTIAN ALBERTO", operacion: "TRACTO EXPRESS" },
         { cedula: "1106786938", conductor: "GARCIA DUARTE KEVIN CAMILO", operacion: "MALACATE" },
         { cedula: "1075307844", conductor: "GARCIA LOPEZ ISMAEL", operacion: "TRACTO EXPRESS" },
         { cedula: "3066767", conductor: "GARCIA MELO ARLEY", operacion: "TRACTO EXPRESS" },
@@ -191,6 +191,7 @@ const ConductoresComponent = () => {
         { cedula: "11111111", conductor: "CARLOS GUTIERREZ", operacion: "TRACTO EXPRESS" },
         { cedula: "72048632", conductor: "MARTINEZ OÑORO LUIS ANIBAL", operacion: "SERVICIOS VARIOS" },
         { cedula: "11111111", conductor: "MARCO ORREGO", operacion: "TRACTO EXPRESS" },
+        { cedula: "11111111", conductor: "ANDREY FERNANDO SANCHEZ", operacion: "TRACTO EXPRESS" },
     ]);
 
     const [search, setSearch] = useState({
